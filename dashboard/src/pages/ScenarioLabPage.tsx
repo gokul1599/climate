@@ -44,6 +44,7 @@ interface ScenarioLabPageProps {
   onReset: () => void;
   onOpenSave: () => void;
   onOpenExport: () => void;
+  chartRef?: React.RefObject<HTMLDivElement>;
 }
 
 export const ScenarioLabPage: React.FC<ScenarioLabPageProps> = ({
@@ -75,9 +76,11 @@ export const ScenarioLabPage: React.FC<ScenarioLabPageProps> = ({
   onReset,
   onOpenSave,
   onOpenExport,
+  chartRef,
 }) => {
   return (
     <div className="space-y-6">
+      <h2 className="sr-only">Scenario Simulation Lab Controls and Maps</h2>
       <ForecastControls
         windows={windows}
         windowIdx={windowIdx}
@@ -115,6 +118,7 @@ export const ScenarioLabPage: React.FC<ScenarioLabPageProps> = ({
             onSelectCell={(c) => onSelectCell(c)}
             showGeoOverlay={showGeoOverlay}
             showGridLines={showGridLines}
+            chartRef={chartRef}
           />
           <RegionalImpactTable
             indicators={indicators}

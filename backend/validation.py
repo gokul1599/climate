@@ -35,6 +35,8 @@ def decode_array(x: Any, expect_shape: tuple[int, ...] | None = None) -> np.ndar
 
 def validate_simulate_request(body: dict[str, Any]) -> tuple[np.ndarray, list[float], int, np.ndarray | None]:
     """Validate /simulate JSON payload and return (init_states, doy_sincos, steps, perturbation)."""
+    if not isinstance(body, dict):
+        raise ValueError("Request body must be a JSON object")
     if "init_states" not in body:
         raise ValueError("Missing 'init_states'")
     if "doy_sincos" not in body:
@@ -43,11 +45,19 @@ def validate_simulate_request(body: dict[str, Any]) -> tuple[np.ndarray, list[fl
         raise ValueError("Missing 'steps'")
 
     init_states = decode_array(body["init_states"], EXPECTED_INIT_SHAPE)
-    doy = [float(v) for v in body["doy_sincos"]]
-    if len(doy) != 2 or not all(np.isfinite(doy)):
+    if float(np.min(init_states[:, 1])) < -1e-3:
+        raise ValueError("'init_states' precipitation channel (tp) cannot be negative")
+    doy_raw = body["doy_sincos"]
+    if not isinstance(doy_raw, (list, tuple)) or len(doy_raw) != 2:
+        raise ValueError("'doy_sincos' must be 2 finite floats")
+    doy = [float(v) for v in doy_raw]
+    if not all(np.isfinite(doy)):
         raise ValueError("'doy_sincos' must be 2 finite floats")
 
-    steps = int(body["steps"])
+    steps_raw = body["steps"]
+    if isinstance(steps_raw, bool) or not isinstance(steps_raw, int):
+        raise ValueError("'steps' must be an integer between 1 and 30")
+    steps = int(steps_raw)
     if steps < 1 or steps > 30:
         raise ValueError(f"'steps' must be between 1 and 30, got {steps}")
 

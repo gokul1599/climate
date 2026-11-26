@@ -59,9 +59,9 @@ export const SavedSimulationsPage: React.FC<SavedSimulationsPageProps> = ({
       {/* Save Current Simulation Bar */}
       <div className="rounded-xl border border-slate-800/90 bg-navy-900/80 p-4">
         <div className="mb-2 flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-white">
+          <h2 className="text-sm font-semibold text-white">
             Save Current Simulation Summary to Neon PostgreSQL
-          </h3>
+          </h2>
           <span className="text-[11px] text-slate-400">
             Stores lightweight metadata &amp; regional indicators (~3 KB/row)
           </span>

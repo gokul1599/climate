@@ -112,8 +112,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {!collapsed && (
-        <div className="border-t border-slate-800/80 p-3 text-[11px] text-slate-500">
-          <div className="font-medium text-slate-400">MonsoonVerse-ClimResCNN</div>
+        <div className="border-t border-slate-800/80 p-3 text-[11px] text-slate-400">
+          <div className="font-medium text-slate-300">MonsoonVerse-ClimResCNN</div>
           <div>ERA5 2005–2021 · 32×36 (1°×1°)</div>
         </div>
       )}
@@ -131,7 +131,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </aside>
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 flex lg:hidden" role="dialog" aria-modal="true">
+        <div
+          className="fixed inset-0 z-50 flex lg:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation drawer"
+        >
           <div
             className="fixed inset-0 bg-black/70"
             onClick={onCloseMobile}

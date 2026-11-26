@@ -173,7 +173,7 @@ export const ForecastControls: React.FC<ForecastControlsProps> = ({
           onChange={(e) => onChangeDay(Number(e.target.value))}
           className="w-full accent-cyan-400"
         />
-        <div className="mt-1.5 flex justify-between text-[11px] text-slate-500">
+        <div className="mt-1.5 flex justify-between text-[11px] text-slate-400">
           {Array.from({ length: 10 }, (_, d) => (
             <button
               key={d}

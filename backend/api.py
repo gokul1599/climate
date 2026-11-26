@@ -154,6 +154,10 @@ def get_simulations(
     scenario: str | None = None,
 ) -> dict[str, Any]:
     """List saved simulation summaries from Neon PostgreSQL with filtering and pagination."""
+    if limit < 1 or limit > 100:
+        raise HTTPException(status_code=422, detail="'limit' must be between 1 and 100")
+    if offset < 0:
+        raise HTTPException(status_code=422, detail="'offset' must be >= 0")
     if not is_db_configured():
         return {"enabled": False, "runs": [], "total": 0}
     try:
@@ -201,7 +205,12 @@ async def save_simulation(request: Request) -> dict[str, Any]:
 def get_simulation(run_id: int) -> dict[str, Any]:
     if not is_db_configured():
         raise HTTPException(status_code=503, detail="Neon DATABASE_URL not configured")
-    row = get_simulation_run(run_id)
+    try:
+        row = get_simulation_run(run_id)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=503, detail=f"Database unavailable ({type(exc).__name__})"
+        ) from exc
     if row is None:
         raise HTTPException(status_code=404, detail="Simulation run not found")
     return {"run": row}
@@ -215,15 +224,22 @@ async def patch_simulation(run_id: int, request: Request) -> dict[str, Any]:
         body = await request.json()
     except Exception as exc:
         raise HTTPException(status_code=400, detail="Invalid JSON body") from exc
+    if not isinstance(body, dict):
+        raise HTTPException(status_code=422, detail="PATCH body must be a JSON object")
     name = body.get("name")
     notes = body.get("notes")
     if name is not None and not str(name).strip():
         raise HTTPException(status_code=422, detail="Name cannot be empty")
-    row = update_simulation_run(
-        run_id,
-        name=str(name) if name is not None else None,
-        notes=str(notes) if notes is not None else None,
-    )
+    try:
+        row = update_simulation_run(
+            run_id,
+            name=str(name) if name is not None else None,
+            notes=str(notes) if notes is not None else None,
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=503, detail=f"Database unavailable ({type(exc).__name__})"
+        ) from exc
     if row is None:
         raise HTTPException(status_code=404, detail="Simulation run not found")
     return {"updated": True, "run": row}
@@ -233,7 +249,12 @@ async def patch_simulation(run_id: int, request: Request) -> dict[str, Any]:
 def remove_simulation(run_id: int) -> dict[str, Any]:
     if not is_db_configured():
         raise HTTPException(status_code=503, detail="Neon DATABASE_URL not configured")
-    deleted = delete_simulation_run(run_id)
+    try:
+        deleted = delete_simulation_run(run_id)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=503, detail=f"Database unavailable ({type(exc).__name__})"
+        ) from exc
     if not deleted:
         raise HTTPException(status_code=404, detail="Simulation run not found")
     return {"deleted": True, "id": run_id}

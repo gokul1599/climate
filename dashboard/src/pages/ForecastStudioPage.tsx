@@ -75,6 +75,7 @@ export const ForecastStudioPage: React.FC<ForecastStudioPageProps> = ({
 
   return (
     <div className="space-y-6">
+      <h2 className="sr-only">Forecast Controls and Spatial Maps</h2>
       <ForecastControls
         windows={windows}
         windowIdx={windowIdx}

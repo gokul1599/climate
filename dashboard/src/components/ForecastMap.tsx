@@ -279,7 +279,7 @@ export const ForecastMap: React.FC<ForecastMapProps> = ({
         palette={activePalette}
       />
 
-      <div className="mt-1.5 flex items-center justify-between text-[10px] text-slate-500">
+      <div className="mt-1.5 flex items-center justify-between text-[10px] text-slate-400">
         <span>65.5°E (West)</span>
         <span>6.5°N – 37.5°N · 1°×1° Grid</span>
         <span>100.5°E (East)</span>

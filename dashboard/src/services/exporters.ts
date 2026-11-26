@@ -136,11 +136,11 @@ export function exportSimulationPdfReport(params: {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   doc.setFontSize(16);
   doc.setTextColor(14, 165, 233);
-  doc.text('MONSOONVERSE — Simulation Report', 15, 18);
+  doc.text('MONSOONVERSE - Simulation Report', 15, 18);
 
   doc.setFontSize(9.5);
   doc.setTextColor(71, 85, 105);
-  doc.text(`Generated: ${new Date().toISOString()} · Model: MonsoonVerse-ClimResCNN (ERA5 2005–2021, 32×36)`, 15, 24);
+  doc.text(`Generated: ${new Date().toISOString()} | Model: MonsoonVerse-ClimResCNN (ERA5 2005-2021, 32x36)`, 15, 24);
 
   doc.setTextColor(15, 23, 42);
   doc.setFontSize(11);
@@ -148,9 +148,10 @@ export function exportSimulationPdfReport(params: {
   doc.setFontSize(9.5);
   doc.text(`Initial Window: ${params.windowLabel}`, 15, 41);
   doc.text(`Scenario: ${params.scenario.label} (${params.scenario.badge})`, 15, 46.5);
-  doc.text(`Perturbation: ${params.scenario.description}`, 15, 52, { maxWidth: 180 });
+  const cleanDesc = params.scenario.description.replace(/\u2212/g, '-').replace(/\u00b0/g, ' deg ');
+  doc.text(`Perturbation: ${cleanDesc}`, 15, 52, { maxWidth: 180 });
   doc.text(
-    `Selected Focus: Day ${params.dayIdx + 1}/10 · ${params.variable.label} (${params.variable.unit}) · CPU Inference: ${
+    `Selected Focus: Day ${params.dayIdx + 1}/10 | ${params.variable.label} (${params.variable.unit}) | CPU Inference: ${
       params.inferenceMs !== null ? `${params.inferenceMs.toFixed(1)} ms` : 'N/A'
     }`,
     15,
@@ -190,7 +191,7 @@ export function exportSimulationPdfReport(params: {
   doc.setFontSize(8.5);
   doc.setTextColor(71, 85, 105);
   doc.text(
-    'MonsoonVerse is a compact 1°×1° regional research prototype trained on 2005–2021 ERA5 data. Outputs are deterministic model-derived scenario comparisons, NOT validated flood alerts, crop-loss diagnoses, or operational meteorological warnings.',
+    'MonsoonVerse is a compact 1 deg x 1 deg regional research prototype trained on 2005-2021 ERA5 data. Outputs are deterministic model-derived scenario comparisons, NOT validated flood alerts, crop-loss diagnoses, or operational meteorological warnings.',
     15,
     y,
     { maxWidth: 180 },

@@ -60,6 +60,7 @@ export const ModelPerformancePage: React.FC<ModelPerformancePageProps> = ({
 
   return (
     <div className="space-y-6">
+      <h2 className="sr-only">Validation Metrics and Skill Curves</h2>
       {/* Provenance Banner */}
       <div className="rounded-xl border border-slate-800/90 bg-navy-900/80 px-4 py-3 text-xs text-slate-300">
         <span className="font-semibold text-white">Chronological Validation Set:</span>{' '}

@@ -44,6 +44,24 @@ import { SystemStatusPage } from './pages/SystemStatusPage';
 import { SettingsPage } from './pages/SettingsPage';
 
 const PAGE_SIZE = 10;
+const SETTINGS_STORAGE_KEY = 'monsoonverse_settings_v1';
+
+const DEFAULT_SETTINGS: AppSettings = {
+  reducedMotion: false,
+  showGeoOverlay: true,
+  showGridLines: false,
+  autoSaveToNeon: false,
+};
+
+function loadInitialSettings(): AppSettings {
+  try {
+    const raw = window.localStorage.getItem(SETTINGS_STORAGE_KEY);
+    if (!raw) return DEFAULT_SETTINGS;
+    return { ...DEFAULT_SETTINGS, ...(JSON.parse(raw) as Partial<AppSettings>) };
+  } catch {
+    return DEFAULT_SETTINGS;
+  }
+}
 
 export function App() {
   const [activeSection, setActiveSection] = useState<NavSection>('overview');
@@ -83,12 +101,16 @@ export function App() {
   const [exportOpen, setExportOpen] = useState<boolean>(false);
   const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
   const [saveModalName, setSaveModalName] = useState<string>('');
-  const [settings, setSettings] = useState<AppSettings>({
-    reducedMotion: false,
-    showGeoOverlay: true,
-    showGridLines: false,
-    autoSaveToNeon: true,
-  });
+  const [settings, setSettings] = useState<AppSettings>(loadInitialSettings);
+
+  const handleUpdateSettings = (next: AppSettings) => {
+    setSettings(next);
+    try {
+      window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(next));
+    } catch {
+      // ignore storage quota / private mode errors
+    }
+  };
 
   const studioChartRef = useRef<HTMLDivElement>(null);
 
@@ -389,6 +411,7 @@ export function App() {
           onReset={handleReset}
           onOpenSave={() => setSaveModalOpen(true)}
           onOpenExport={() => setExportOpen(true)}
+          chartRef={studioChartRef}
         />
       )}
 
@@ -451,7 +474,7 @@ export function App() {
       )}
 
       {activeSection === 'settings' && (
-        <SettingsPage settings={settings} onChangeSettings={setSettings} />
+        <SettingsPage settings={settings} onChangeSettings={handleUpdateSettings} />
       )}
 
       {/* Save Modal */}
@@ -460,13 +483,23 @@ export function App() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
           role="dialog"
           aria-modal="true"
+          aria-labelledby="save-dialog-title"
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setSaveModalOpen(false);
+          }}
         >
           <div className="w-full max-w-sm rounded-xl border border-slate-800 bg-[#0b1426] p-5 shadow-2xl">
-            <h3 className="text-sm font-semibold text-white">Save Simulation to Neon</h3>
+            <h3 id="save-dialog-title" className="text-sm font-semibold text-white">
+              Save Simulation to Neon
+            </h3>
             <p className="mt-1 text-xs text-slate-400">
               Give this run a name so you can inspect or compare it later.
             </p>
+            <label htmlFor="save-run-name-input" className="sr-only">
+              Simulation name
+            </label>
             <input
+              id="save-run-name-input"
               type="text"
               value={saveModalName}
               onChange={(e) => setSaveModalName(e.target.value)}

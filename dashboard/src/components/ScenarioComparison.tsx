@@ -17,6 +17,7 @@ interface ScenarioComparisonProps {
   onSelectCell: (c: GridCellSelection) => void;
   showGeoOverlay: boolean;
   showGridLines: boolean;
+  chartRef?: React.RefObject<HTMLDivElement>;
 }
 
 export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
@@ -33,6 +34,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
   onSelectCell,
   showGeoOverlay,
   showGridLines,
+  chartRef,
 }) => {
   const activeBox: [number, number, number, number] | undefined =
     scenario.key === 'custom'
@@ -123,6 +125,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
 
       {/* Three Coordinated Maps */}
       <div
+        ref={chartRef}
         className={`grid grid-cols-1 gap-4 ${
           perturbedRollout ? 'xl:grid-cols-3' : 'xl:grid-cols-1'
         }`}
@@ -209,7 +212,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
               <div className="text-[11px] text-slate-400">
                 Mean |Δ|: <span className="font-mono text-cyan-300">{s.meanAbsDiff.toFixed(4)}</span>
               </div>
-              <div className="text-[11px] text-slate-500">Active cells (&gt;1e-3): {s.activeCells}/1152</div>
+              <div className="text-[11px] text-slate-400">Active cells (&gt;1e-3): {s.activeCells}/1152</div>
             </button>
           ))}
         </div>
