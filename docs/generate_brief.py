@@ -109,7 +109,7 @@ def build_brief(out_path: Path) -> None:
         ),
         Paragraph("6. Interactive Dashboard & Normal-vs-Shock Comparison", h2_s),
         Paragraph(
-            "The React + TypeScript + Tailwind + Recharts dashboard connects live to <i>POST /health</i>, <i>POST /simulate</i>, "
+            "The React + TypeScript + Tailwind + Recharts dashboard connects live to <i>POST /health</i>, the simulation API, "
             "and <i>/api/sample-windows</i>. Users select a validation window, climate variable (all 6 channels), forecast day (D1–D10), "
             "and scenario (Normal, Warm Bay of Bengal, Arabian Sea Stall, Zero Check). The UI renders side-by-side Normal, Perturbed, "
             "and diverging Difference (<i>Perturbed − Normal</i>) 32×36 India grid maps (south-to-north) alongside 10-day domain-mean "
