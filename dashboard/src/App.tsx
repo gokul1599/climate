@@ -4,9 +4,15 @@ import {
   buildPerturbation,
   checkHealth,
   computeRegionalIndicators,
+  DbStatus,
+  deleteSimulationRun,
+  fetchDbStatus,
   fetchSampleWindows,
+  fetchSavedSimulations,
   runSimulation,
   SampleWindow,
+  SavedSimulationRun,
+  saveSimulationRun,
   SCENARIOS,
   ScenarioKey,
   VariableIndex,
@@ -15,6 +21,7 @@ import {
 import { IndiaGridMap } from './components/IndiaGridMap';
 import { ForecastCharts } from './components/ForecastCharts';
 import { ImpactExplorer } from './components/ImpactExplorer';
+import { SavedSimulations } from './components/SavedSimulations';
 
 export function App() {
   const [health, setHealth] = useState<{ status: string; model_name: string } | null>(null);
@@ -27,15 +34,26 @@ export function App() {
   const [normalRollout, setNormalRollout] = useState<number[][][][] | null>(null);
   const [perturbedRollout, setPerturbedRollout] = useState<number[][][][] | null>(null);
   const [inferenceMs, setInferenceMs] = useState<number | null>(null);
+  const [dbStatus, setDbStatus] = useState<DbStatus | null>(null);
+  const [savedRuns, setSavedRuns] = useState<SavedSimulationRun[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
       try {
-        const [h, w] = await Promise.all([checkHealth(), fetchSampleWindows()]);
+        const [h, w, db] = await Promise.all([
+          checkHealth(),
+          fetchSampleWindows(),
+          fetchDbStatus().catch(() => ({ connected: false, provider: 'neon', mode: 'offline' })),
+        ]);
         setHealth(h);
         setWindows(w);
+        setDbStatus(db);
+        if (db.connected) {
+          const hist = await fetchSavedSimulations();
+          setSavedRuns(hist.runs);
+        }
       } catch (e) {
         setError(e instanceof Error ? e.message : String(e));
       }
@@ -51,19 +69,49 @@ export function App() {
       const normRes = await runSimulation(win.init_states, win.doy_sincos, 10, null);
       setNormalRollout(normRes.rollout);
 
+      let activePertRollout: number[][][][] | null = null;
+      let activeInfMs = normRes.inference_ms;
       if (sc === 'normal') {
         setPerturbedRollout(null);
         setInferenceMs(normRes.inference_ms);
       } else {
         const pert = buildPerturbation(sc, win.init_states[2]);
         const pertRes = await runSimulation(win.init_states, win.doy_sincos, 10, pert);
+        activePertRollout = pertRes.rollout;
+        activeInfMs = pertRes.inference_ms;
         setPerturbedRollout(pertRes.rollout);
         setInferenceMs(pertRes.inference_ms);
+      }
+
+      if (dbStatus?.connected) {
+        const summary = computeRegionalIndicators(normRes.rollout, activePertRollout);
+        const saved = await saveSimulationRun({
+          scenario: sc,
+          window_id: win.id,
+          window_label: win.label,
+          doy_sincos: win.doy_sincos,
+          steps: 10,
+          inference_ms: activeInfMs,
+          regional_summary: summary,
+          anomalies: activePertRollout ? summary : null,
+        }).catch(() => null);
+        if (saved) {
+          setSavedRuns((prev) => [saved, ...prev].slice(0, 20));
+        }
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteRun = async (id: number) => {
+    try {
+      await deleteSimulationRun(id);
+      setSavedRuns((prev) => prev.filter((r) => r.id !== id));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
     }
   };
 
@@ -281,6 +329,13 @@ export function App() {
             hasPerturbation={perturbedRollout !== null}
           />
         )}
+
+        {/* Saved Simulations (Neon PostgreSQL) */}
+        <SavedSimulations
+          dbStatus={dbStatus}
+          runs={savedRuns}
+          onDelete={handleDeleteRun}
+        />
       </main>
     </div>
   );

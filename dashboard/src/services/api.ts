@@ -209,3 +209,60 @@ export function computeRegionalIndicators(
     };
   });
 }
+
+export interface DbStatus {
+  connected: boolean;
+  provider: string;
+  mode: string;
+  database?: string;
+}
+
+export interface SavedSimulationRun {
+  id: number;
+  created_at: string;
+  scenario: string;
+  window_id: number;
+  window_label: string;
+  doy_sincos: number[];
+  steps: number;
+  inference_ms: number;
+  regional_summary: RegionalIndicator[];
+  anomalies?: RegionalIndicator[] | null;
+}
+
+export async function fetchDbStatus(): Promise<DbStatus> {
+  const res = await fetch('/api/db-status');
+  if (!res.ok) throw new Error(`DB status failed: ${res.status}`);
+  return res.json();
+}
+
+export async function fetchSavedSimulations(): Promise<{ enabled: boolean; runs: SavedSimulationRun[] }> {
+  const res = await fetch('/api/simulations');
+  if (!res.ok) throw new Error(`Failed to fetch saved simulations: ${res.status}`);
+  return res.json();
+}
+
+export async function saveSimulationRun(payload: {
+  scenario: string;
+  window_id: number;
+  window_label: string;
+  doy_sincos: [number, number];
+  steps: number;
+  inference_ms: number;
+  regional_summary: RegionalIndicator[];
+  anomalies?: RegionalIndicator[] | null;
+}): Promise<SavedSimulationRun> {
+  const res = await fetch('/api/simulations', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error(`Failed to save simulation: ${res.status}`);
+  const data = await res.json();
+  return data.run;
+}
+
+export async function deleteSimulationRun(runId: number): Promise<void> {
+  const res = await fetch(`/api/simulations/${runId}`, { method: 'DELETE' });
+  if (!res.ok) throw new Error(`Failed to delete simulation: ${res.status}`);
+}

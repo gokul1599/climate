@@ -9,6 +9,13 @@ import numpy as np
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.db import (
+    delete_simulation_run,
+    get_db_status,
+    insert_simulation_run,
+    is_db_configured,
+    list_simulation_runs,
+)
 from backend.model_loader import load_predictor
 from backend.response_formatter import format_simulation_response
 from backend.validation import validate_rollout_output, validate_simulate_request
@@ -76,3 +83,56 @@ def sample_windows() -> dict[str, Any]:
                 }
             )
     return {"windows": windows}
+
+
+@app.get("/api/db-status")
+def db_status() -> dict[str, Any]:
+    """Report Neon PostgreSQL connectivity status (offline-disabled when no DATABASE_URL)."""
+    return get_db_status()
+
+
+@app.get("/api/simulations")
+def get_simulations(limit: int = 20) -> dict[str, Any]:
+    """List saved simulation summaries from Neon PostgreSQL."""
+    if not is_db_configured():
+        return {"enabled": False, "runs": []}
+    try:
+        runs = list_simulation_runs(limit=limit)
+        return {"enabled": True, "runs": runs}
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail=f"Neon query failed: {exc}") from exc
+
+
+@app.post("/api/simulations", status_code=201)
+async def save_simulation(request: Request) -> dict[str, Any]:
+    """Persist a simulation run summary and regional impact indicators to Neon PostgreSQL."""
+    if not is_db_configured():
+        raise HTTPException(status_code=503, detail="Neon DATABASE_URL not configured")
+    try:
+        body = await request.json()
+        row = insert_simulation_run(
+            scenario=str(body["scenario"]),
+            window_id=int(body["window_id"]),
+            window_label=str(body["window_label"]),
+            doy_sincos=[float(x) for x in body["doy_sincos"]],
+            steps=int(body["steps"]),
+            inference_ms=float(body["inference_ms"]),
+            regional_summary=list(body["regional_summary"]),
+            anomalies=body.get("anomalies"),
+        )
+        return {"saved": True, "run": row}
+    except KeyError as exc:
+        raise HTTPException(status_code=422, detail=f"Missing field: {exc}") from exc
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Failed to persist simulation: {exc}") from exc
+
+
+@app.delete("/api/simulations/{run_id}")
+def remove_simulation(run_id: int) -> dict[str, Any]:
+    """Delete a saved simulation run by ID from Neon PostgreSQL."""
+    if not is_db_configured():
+        raise HTTPException(status_code=503, detail="Neon DATABASE_URL not configured")
+    deleted = delete_simulation_run(run_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Simulation run not found")
+    return {"deleted": True, "id": run_id}
