@@ -1,0 +1,17 @@
+[project]
+name = "monsoonverse"
+version = "1.0.0"
+description = "MonsoonVerse — India's Interactive Climate Digital Twin"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "torch>=2.2",
+    "fastapi>=0.110",
+    "uvicorn>=0.27",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
