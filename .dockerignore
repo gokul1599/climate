@@ -1,0 +1,11 @@
+.git
+.env
+.env.*
+*.nc
+__pycache__/
+*.pyc
+.pytest_cache/
+dashboard/node_modules/
+dashboard/dist/
+experiments/*/model*.pt
+test-results/
