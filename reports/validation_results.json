@@ -1,5 +1,5 @@
 {
-  "model_name": "MonsoonVerse-ResCNN",
+  "model_name": "MonsoonVerse-ClimResCNN",
   "val_date_start": "2018-08-18",
   "val_date_end": "2021-12-31",
   "num_eval_windows": 82,

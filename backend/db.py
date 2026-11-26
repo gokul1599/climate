@@ -155,20 +155,36 @@ def get_db_status() -> dict[str, Any]:
     try:
         ensure_schema()
         with _connect() as conn:
-            row = conn.fetch_one("SELECT 1 AS ok, current_database() AS db")
+            row = conn.fetch_one(
+                "SELECT COUNT(*) AS run_count, MAX(created_at) AS last_run_at, current_database() AS db FROM simulation_runs"
+            )
+        last_at = row["last_run_at"].isoformat() if row and row.get("last_run_at") else None
         return {
             "connected": True,
             "provider": "neon",
             "mode": "live",
             "database": row["db"] if row else "neondb",
+            "run_count": int(row["run_count"]) if row else 0,
+            "last_run_at": last_at,
         }
     except Exception as exc:
         return {
             "connected": False,
             "provider": "neon",
             "mode": "error",
-            "detail": f"{type(exc).__name__}: {str(exc)[:160]}",
+            "detail": f"Database check failed ({type(exc).__name__})",
         }
+
+
+_SELECT_COLS = """
+    id, created_at,
+    COALESCE(NULLIF(name, ''), window_label || ' — ' || scenario) AS name,
+    scenario, window_id, window_label, doy_sincos, steps, inference_ms,
+    COALESCE(model_version, 'MonsoonVerse-ClimResCNN') AS model_version,
+    COALESCE(configuration, '{}'::jsonb) AS configuration,
+    regional_summary, anomalies,
+    COALESCE(notes, '') AS notes
+"""
 
 
 def insert_simulation_run(
@@ -180,49 +196,120 @@ def insert_simulation_run(
     inference_ms: float,
     regional_summary: list[dict[str, Any]],
     anomalies: list[dict[str, Any]] | None = None,
+    name: str | None = None,
+    model_version: str = "MonsoonVerse-ClimResCNN",
+    configuration: dict[str, Any] | None = None,
+    notes: str = "",
 ) -> dict[str, Any]:
     ensure_schema()
-    sql = """
+    display_name = (name or "").strip() or f"{window_label} ({scenario})"
+    sql = f"""
         INSERT INTO simulation_runs (
-            scenario, window_id, window_label, doy_sincos, steps,
-            inference_ms, regional_summary, anomalies
+            name, scenario, window_id, window_label, doy_sincos, steps,
+            inference_ms, model_version, configuration, regional_summary, anomalies, notes
         )
-        VALUES (%s, %s, %s, %s, %s, %s, %s::jsonb, %s::jsonb)
-        RETURNING id, created_at, scenario, window_id, window_label,
-                  doy_sincos, steps, inference_ms, regional_summary, anomalies
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb, %s::jsonb, %s::jsonb, %s)
+        RETURNING {_SELECT_COLS}
     """
     with _connect() as conn:
         row = conn.fetch_one(
             sql,
             (
+                display_name,
                 scenario,
                 int(window_id),
                 window_label,
                 [float(x) for x in doy_sincos],
                 int(steps),
                 float(inference_ms),
+                model_version,
+                json.dumps(configuration or {}),
                 json.dumps(regional_summary),
                 json.dumps(anomalies) if anomalies is not None else None,
+                notes or "",
             ),
         )
         conn._conn.commit()
     return _serialise_row(row or {})
 
 
-def list_simulation_runs(limit: int = 20) -> list[dict[str, Any]]:
+def list_simulation_runs(
+    limit: int = 20,
+    offset: int = 0,
+    search: str | None = None,
+    scenario: str | None = None,
+) -> tuple[list[dict[str, Any]], int]:
     if not is_db_configured():
-        return []
+        return [], 0
     ensure_schema()
-    sql = """
-        SELECT id, created_at, scenario, window_id, window_label,
-               doy_sincos, steps, inference_ms, regional_summary, anomalies
+    clauses: list[str] = []
+    params: list[Any] = []
+
+    if scenario and scenario != "all":
+        clauses.append("scenario = %s")
+        params.append(scenario)
+    if search and search.strip():
+        q = f"%{search.strip()}%"
+        clauses.append("(COALESCE(name, '') ILIKE %s OR window_label ILIKE %s OR scenario ILIKE %s)")
+        params.extend([q, q, q])
+
+    where_sql = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+    lim = max(1, min(int(limit), 100))
+    off = max(0, int(offset))
+
+    count_sql = f"SELECT COUNT(*) AS total FROM simulation_runs {where_sql}"
+    list_sql = f"""
+        SELECT {_SELECT_COLS}
         FROM simulation_runs
-        ORDER BY created_at DESC
-        LIMIT %s
+        {where_sql}
+        ORDER BY created_at DESC, id DESC
+        LIMIT %s OFFSET %s
     """
     with _connect() as conn:
-        rows = conn.fetch_all(sql, (max(1, min(int(limit), 100)),))
-    return [_serialise_row(r) for r in rows]
+        cnt_row = conn.fetch_one(count_sql, tuple(params))
+        rows = conn.fetch_all(list_sql, tuple(params + [lim, off]))
+    return [_serialise_row(r) for r in rows], int(cnt_row["total"]) if cnt_row else 0
+
+
+def get_simulation_run(run_id: int) -> dict[str, Any] | None:
+    if not is_db_configured():
+        return None
+    ensure_schema()
+    sql = f"SELECT {_SELECT_COLS} FROM simulation_runs WHERE id = %s"
+    with _connect() as conn:
+        row = conn.fetch_one(sql, (int(run_id),))
+    return _serialise_row(row) if row else None
+
+
+def update_simulation_run(
+    run_id: int,
+    name: str | None = None,
+    notes: str | None = None,
+) -> dict[str, Any] | None:
+    if not is_db_configured():
+        return None
+    ensure_schema()
+    sets: list[str] = []
+    params: list[Any] = []
+    if name is not None:
+        sets.append("name = %s")
+        params.append(name.strip())
+    if notes is not None:
+        sets.append("notes = %s")
+        params.append(notes)
+    if not sets:
+        return get_simulation_run(run_id)
+    params.append(int(run_id))
+    sql = f"""
+        UPDATE simulation_runs
+        SET {', '.join(sets)}
+        WHERE id = %s
+        RETURNING {_SELECT_COLS}
+    """
+    with _connect() as conn:
+        row = conn.fetch_one(sql, tuple(params))
+        conn._conn.commit()
+    return _serialise_row(row) if row else None
 
 
 def delete_simulation_run(run_id: int) -> bool:
@@ -238,8 +325,7 @@ def _serialise_row(row: dict[str, Any]) -> dict[str, Any]:
     out = dict(row)
     if out.get("created_at") is not None and hasattr(out["created_at"], "isoformat"):
         out["created_at"] = out["created_at"].isoformat()
-    if isinstance(out.get("regional_summary"), str):
-        out["regional_summary"] = json.loads(out["regional_summary"])
-    if isinstance(out.get("anomalies"), str):
-        out["anomalies"] = json.loads(out["anomalies"])
+    for jf in ("regional_summary", "anomalies", "configuration"):
+        if isinstance(out.get(jf), str):
+            out[jf] = json.loads(out[jf])
     return out

@@ -124,7 +124,7 @@ def run_full_evaluation(stride: int = 15, steps: int = 10) -> dict:
     (root / "reports" / "baseline_results.json").write_text(json.dumps(baseline_report, indent=2), encoding="utf-8")
 
     full_report = {
-        "model_name": "MonsoonVerse-ResCNN",
+        "model_name": "MonsoonVerse-ClimResCNN",
         "val_date_start": str(val_times[0].date()),
         "val_date_end": str(val_times[-1].date()),
         "num_eval_windows": len(starts),

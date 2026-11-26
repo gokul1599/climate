@@ -1,5 +1,5 @@
 -- MonsoonVerse Neon PostgreSQL Schema
--- Stores simulation run summaries, scenario metadata, and regional impact indicators.
+-- Stores simulation run summaries, configuration, scenario metadata, and regional impact indicators.
 
 CREATE TABLE IF NOT EXISTS simulation_runs (
     id BIGSERIAL PRIMARY KEY,
@@ -14,5 +14,13 @@ CREATE TABLE IF NOT EXISTS simulation_runs (
     anomalies JSONB
 );
 
+ALTER TABLE simulation_runs ADD COLUMN IF NOT EXISTS name TEXT;
+ALTER TABLE simulation_runs ADD COLUMN IF NOT EXISTS model_version TEXT DEFAULT 'MonsoonVerse-ClimResCNN';
+ALTER TABLE simulation_runs ADD COLUMN IF NOT EXISTS configuration JSONB DEFAULT '{}'::jsonb;
+ALTER TABLE simulation_runs ADD COLUMN IF NOT EXISTS notes TEXT DEFAULT '';
+
 CREATE INDEX IF NOT EXISTS idx_simulation_runs_created_at
     ON simulation_runs (created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_simulation_runs_scenario_created
+    ON simulation_runs (scenario, created_at DESC);
