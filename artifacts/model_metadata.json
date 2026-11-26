@@ -1,20 +1,18 @@
 {
-  "model_name": "MonsoonVerse-ResCNN",
-  "epoch": 4,
-  "val_loss": 0.16321574673056602,
-  "checkpoint_size_bytes": 341401,
+  "model_name": "MonsoonVerse-ClimResCNN",
+  "epoch": 7,
+  "val_loss": 0.221808061003685,
+  "checkpoint_size_bytes": 424753,
+  "train_time_s": 1479.3,
+  "train_samples": 2479,
+  "val_samples": 82,
   "config": {
-    "model_name": "MonsoonVerse-ResCNN",
+    "model_name": "MonsoonVerse-ClimResCNN",
+    "use_clim_cond": true,
     "hidden_channels": 32,
-    "num_blocks": 4,
-    "t_in": 3,
-    "train_frac": 0.8,
-    "gap_days": 10,
-    "rollout_horizon": 3,
-    "batch_size": 128,
+    "num_blocks": 5,
+    "rollout_horizon": 8,
     "epochs": 7,
-    "lr": 0.0025,
-    "weight_decay": 0.0001,
     "seed": 42
   }
 }

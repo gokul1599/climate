@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 import torch
@@ -13,7 +12,7 @@ from ml.rollout import autoregressive_rollout
 
 
 class MonsoonPredictor:
-    """Holds loaded model, normalisation stats, and static geographic fields for CPU inference."""
+    """Holds loaded model, normalisation stats, static fields, and training climatology for CPU inference."""
 
     def __init__(self, artifacts_dir: Path | str | None = None) -> None:
         root = Path(__file__).resolve().parents[1]
@@ -21,10 +20,12 @@ class MonsoonPredictor:
 
         ckpt = torch.load(art / "model.pt", map_location="cpu", weights_only=True)
         cfg = ckpt["config"]
+        use_clim = bool(cfg.get("use_clim_cond", False))
         self.model_name = "MonsoonVerse"
         self.model = MonsoonResCNN(
             hidden_channels=int(cfg["hidden_channels"]),
             num_blocks=int(cfg["num_blocks"]),
+            use_clim_cond=use_clim,
         )
         self.model.load_state_dict(ckpt["model_state_dict"])
         self.model.eval()
@@ -32,6 +33,11 @@ class MonsoonPredictor:
         self.mean, self.std = load_norm_stats(art / "stats.json")
         st = np.load(art / "static_fields.npz")
         self.static_norm = np.asarray(st["static_norm"], dtype=np.float32)
+
+        self.clim_norm_366: np.ndarray | None = None
+        clim_path = art / "climatology.npz"
+        if use_clim and clim_path.is_file():
+            self.clim_norm_366 = np.asarray(np.load(clim_path)["clim_norm"], dtype=np.float32)
 
     def predict_rollout(
         self,
@@ -50,6 +56,7 @@ class MonsoonPredictor:
             std=self.std,
             static_norm=self.static_norm,
             perturbation_phys=perturbation,
+            clim_norm_366=self.clim_norm_366,
         )
 
 
