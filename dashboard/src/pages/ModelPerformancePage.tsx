@@ -246,6 +246,126 @@ export const ModelPerformancePage: React.FC<ModelPerformancePageProps> = ({
           </table>
         </div>
       </div>
+
+      {/* Deterministic Empirical Out-of-Sample Residual Intervals */}
+      {(() => {
+        const activeBands =
+          evaluation.active_model?.active_variant === 'local_resnet_v3' &&
+          evaluation.challenger_uncertainty_bands
+            ? evaluation.challenger_uncertainty_bands
+            : evaluation.incumbent_uncertainty_bands;
+        if (!activeBands) return null;
+        return (
+          <div className="rounded-xl border border-slate-800/90 bg-navy-900/80 p-4 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-semibold text-white">
+                  Empirical Out-of-Sample Residual Error Bands (D1–D10 · {activeBands.model_name})
+                </h3>
+                <p className="text-[11px] text-amber-200/90">
+                  {activeBands.deterministic_note}
+                </p>
+              </div>
+              <span className="rounded-full border border-slate-700 bg-slate-900 px-2.5 py-0.5 text-[10px] text-slate-300">
+                n = {activeBands.num_windows} validation windows ({activeBands.val_date_start}..{activeBands.val_date_end})
+              </span>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-slate-800 text-[11px] text-slate-400">
+                    <th className="py-2 pr-2">Lead</th>
+                    <th className="py-2 px-2">t2m MAE / [p05, p95] (K)</th>
+                    <th className="py-2 px-2">tp MAE / [p05, p95] (mm/d)</th>
+                    <th className="py-2 px-2">u10 MAE / [p05, p95] (m/s)</th>
+                    <th className="py-2 pl-2">tcwv MAE / [p05, p95] (kg/m²)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/50 font-mono text-[11px]">
+                  {activeBands.leads
+                    .filter((l) => l.day === 1 || l.day === 4 || l.day === 8 || l.day === 10)
+                    .map((l) => {
+                      const fmt = (ch: string) => {
+                        const s = l.channels[ch];
+                        return s ? `${s.mae.toFixed(2)} [${s.p05.toFixed(2)}, ${s.p95.toFixed(2)}]` : '—';
+                      };
+                      return (
+                        <tr key={l.day}>
+                          <td className="py-1.5 pr-2 text-cyan-300">Day {l.day}</td>
+                          <td className="py-1.5 px-2 text-slate-300">{fmt('t2m')}</td>
+                          <td className="py-1.5 px-2 text-slate-300">{fmt('tp')}</td>
+                          <td className="py-1.5 px-2 text-slate-300">{fmt('u10')}</td>
+                          <td className="py-1.5 pl-2 text-slate-300">{fmt('tcwv')}</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Controlled Incumbent vs LocalResNet-v3 Comparison (when generated) */}
+      {evaluation.model_comparison && (() => {
+        const mc = evaluation.model_comparison as {
+          promotion_decision?: { decision?: string; reason?: string };
+          protocol_a_reference_52w?: {
+            incumbent?: { score_summary?: Record<string, number>; latency_ms?: { mean?: number }; causality?: { warm_ocean?: { propagates_rate?: number }; monsoon_stall?: { propagates_rate?: number } } };
+            local_resnet_v3?: { score_summary?: Record<string, number>; latency_ms?: { mean?: number }; causality?: { warm_ocean?: { propagates_rate?: number }; monsoon_stall?: { propagates_rate?: number } } };
+          };
+        };
+        const inc = mc.protocol_a_reference_52w?.incumbent;
+        const chg = mc.protocol_a_reference_52w?.local_resnet_v3;
+        return (
+          <div className="rounded-xl border border-cyan-500/30 bg-navy-900/85 p-4 space-y-3 text-xs">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h3 className="text-sm font-semibold text-white">
+                Controlled Challenger Benchmark (Protocol A: 2020–2021, 52 Windows, Zero Leakage)
+              </h3>
+              <span className="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-300">
+                {mc.promotion_decision?.decision ?? 'EVALUATED'}
+              </span>
+            </div>
+            <p className="text-slate-300">{mc.promotion_decision?.reason ?? ''}</p>
+            {inc?.score_summary && chg?.score_summary && (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-slate-800 text-[11px] text-slate-400">
+                      <th className="py-2 pr-2">Benchmark Metric</th>
+                      <th className="py-2 px-2 text-right">Incumbent (ClimResCNN)</th>
+                      <th className="py-2 pl-2 text-right">Promoted (LocalResNet-v3)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/50 font-mono text-[11px]">
+                    <tr>
+                      <td className="py-1.5 pr-2 font-sans text-slate-300">Forecast RMSE Skill (/30)</td>
+                      <td className="py-1.5 px-2 text-right text-slate-300">{inc.score_summary.forecast_rmse_pts_30?.toFixed(2)}</td>
+                      <td className="py-1.5 pl-2 text-right text-emerald-300">{chg.score_summary.forecast_rmse_pts_30?.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-1.5 pr-2 font-sans text-slate-300">Heavy-Rain CSI Skill (/15)</td>
+                      <td className="py-1.5 px-2 text-right text-slate-300">{inc.score_summary.forecast_csi_pts_15?.toFixed(2)}</td>
+                      <td className="py-1.5 pl-2 text-right text-emerald-300">{chg.score_summary.forecast_csi_pts_15?.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-1.5 pr-2 font-sans text-slate-300">Total Model Score (/70)</td>
+                      <td className="py-1.5 px-2 text-right text-slate-300">{inc.score_summary.total_model_pts_70?.toFixed(2)}</td>
+                      <td className="py-1.5 pl-2 text-right font-semibold text-cyan-300">{chg.score_summary.total_model_pts_70?.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-1.5 pr-2 font-sans text-slate-300">CPU Latency Mean (ms)</td>
+                      <td className="py-1.5 px-2 text-right text-slate-300">{inc.latency_ms?.mean?.toFixed(2)}</td>
+                      <td className="py-1.5 pl-2 text-right text-emerald-300">{chg.latency_ms?.mean?.toFixed(2)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 };

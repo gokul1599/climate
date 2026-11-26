@@ -113,9 +113,19 @@ export const SystemStatusPage: React.FC<SystemStatusPageProps> = ({
             />
           </div>
           <p className="text-[11px] text-slate-400">
-            {systemStatus?.model_name ?? 'MonsoonVerse-ClimResCNN'} ·{' '}
-            {systemStatus?.climatology_loaded ? 'Climatology loaded' : 'Climatology pending'}
+            {systemStatus?.model_name ?? 'MonsoonVerse-ClimResCNN'} (
+            {systemStatus?.active_variant ?? 'incumbent'}) ·{' '}
+            {systemStatus?.climatology_loaded ? 'Climatology loaded' : 'No clim conditioning'}
           </p>
+          {systemStatus?.architecture_summary && (
+            <p className="font-mono text-[10px] text-slate-400">{systemStatus.architecture_summary}</p>
+          )}
+          {systemStatus?.checkpoint_sha256 && (
+            <p className="font-mono text-[10px] text-cyan-300/80">
+              SHA-256: {systemStatus.checkpoint_sha256.slice(0, 16)}... · Challenger{' '}
+              {systemStatus.challenger_available ? 'ready' : 'not built'}
+            </p>
+          )}
         </div>
 
         <div className="rounded-xl border border-slate-800/90 bg-navy-900/80 p-4 space-y-2">

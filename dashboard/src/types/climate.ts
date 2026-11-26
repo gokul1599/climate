@@ -66,15 +66,30 @@ export interface RegionalIndicator {
   deltaTp: number;
   normalHeavyCells: number;
   perturbedHeavyCells: number;
+  normalHeavyExposurePct?: number;
+  perturbedHeavyExposurePct?: number;
+  normalPersistentHeavyStreak?: number;
+  perturbedPersistentHeavyStreak?: number;
+  normalPersistentWetStreak?: number;
+  perturbedPersistentWetStreak?: number;
   normalMeanT2mC: number;
   perturbedMeanT2mC: number;
   deltaT2m: number;
+  normalHeatStressProxyC?: number;
+  perturbedHeatStressProxyC?: number;
+  deltaHeatStressProxyC?: number;
+  normalHotDays?: number;
+  perturbedHotDays?: number;
   normalMeanTcwv: number;
   perturbedMeanTcwv: number;
   deltaTcwv: number;
   normalMeanWind: number;
   perturbedMeanWind: number;
   deltaWind: number;
+  normalStrongWindCells?: number;
+  perturbedStrongWindCells?: number;
+  normalMaxWindMs?: number;
+  perturbedMaxWindMs?: number;
 }
 
 export interface DayDomainMetric {
@@ -209,6 +224,28 @@ export interface ValidationResults {
   };
 }
 
+export interface UncertaintyChannelStats {
+  bias: number;
+  mae: number;
+  rmse: number;
+  p05: number;
+  p95: number;
+}
+
+export interface UncertaintyBands {
+  model_name: string;
+  method?: string;
+  is_probabilistic_ensemble: boolean;
+  deterministic_note: string;
+  num_windows: number;
+  val_date_start: string;
+  val_date_end: string;
+  leads: {
+    day: number;
+    channels: Record<string, UncertaintyChannelStats>;
+  }[];
+}
+
 export interface EvaluationBundle {
   ten_day: TenDayMetrics | null;
   validation: ValidationResults | null;
@@ -233,12 +270,36 @@ export interface EvaluationBundle {
     nan_count: number;
     inf_count: number;
   } | null;
+  active_model?: {
+    active_variant: string;
+    model_name: string;
+    architecture_summary: string;
+    checkpoint_sha256: string | null;
+    challenger_available: boolean;
+    manifest?: Record<string, unknown> | null;
+  } | null;
+  incumbent_manifest?: Record<string, unknown> | null;
+  incumbent_uncertainty_bands?: UncertaintyBands | null;
+  challenger_manifest?: Record<string, unknown> | null;
+  challenger_uncertainty_bands?: UncertaintyBands | null;
+  model_comparison?: Record<string, unknown> | null;
+}
+
+export interface CustomExperimentPayload {
+  init_states: number[][][][];
+  doy_sincos: [number, number];
+  steps: number;
+  perturbation: number[][][] | null;
 }
 
 export interface SystemStatus {
   fastapi: string;
   model_loaded: boolean;
   model_name: string;
+  active_variant?: string;
+  architecture_summary?: string;
+  checkpoint_sha256?: string | null;
+  challenger_available?: boolean;
   inference_mode: string;
   assets_present: boolean;
   climatology_loaded: boolean;

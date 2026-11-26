@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { computeRegionalIndicators, computeRegionalTimeSeries, REGIONS } from '../services/api';
+import { computeRegionalIndicators, computeRegionalTimeSeries, REGIONS, STRESS_FORMULAS } from '../services/api';
 import { exportRegionalIndicatorsCsv } from '../services/exporters';
 import { ScenarioKey, VariableMeta } from '../types/climate';
 import { ForecastMap } from '../components/ForecastMap';
@@ -107,6 +107,38 @@ export const ImpactExplorerPage: React.FC<ImpactExplorerPageProps> = ({
             <Download className="h-3.5 w-3.5" />
             Export CSV
           </button>
+        </div>
+      </div>
+
+      {/* Formula Transparency & Indicator Distinguishing Bar */}
+      <div className="rounded-xl border border-slate-800/90 bg-navy-900/75 p-4 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h3 className="text-xs font-semibold text-white">
+            Regional Monsoon Stress Formula Definitions
+          </h3>
+          <div className="flex flex-wrap gap-1.5 text-[10px]">
+            <span className="rounded-full border border-cyan-500/40 bg-cyan-500/10 px-2 py-0.5 text-cyan-300">
+              Baseline Rollout
+            </span>
+            {perturbedRollout && (
+              <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-amber-300">
+                Perturbed Scenario ({scenario})
+              </span>
+            )}
+            <span className="rounded-full border border-violet-500/40 bg-violet-500/10 px-2 py-0.5 text-violet-300">
+              Derived / Unvalidated Proxy
+            </span>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
+          {STRESS_FORMULAS.map((f) => (
+            <div key={f.id} className="rounded-lg border border-slate-800 bg-slate-950/70 p-2.5 text-[11px]">
+              <div className="mb-1 flex items-center justify-between gap-1">
+                <span className="font-semibold text-slate-200">{f.title}</span>
+              </div>
+              <p className="font-mono text-[10px] text-slate-400">{f.formula}</p>
+            </div>
+          ))}
         </div>
       </div>
 

@@ -19,6 +19,7 @@ import {
 } from './services/api';
 import {
   AppSettings,
+  CustomExperimentPayload,
   CustomPerturbationConfig,
   DbStatus,
   EvaluationBundle,
@@ -81,6 +82,43 @@ export function App() {
   const [perturbedRollout, setPerturbedRollout] = useState<number[][][][] | null>(null);
   const [inferenceMs, setInferenceMs] = useState<number | null>(null);
   const [lastSimAt, setLastSimAt] = useState<string | null>(null);
+  const [simSourceNote, setSimSourceNote] = useState<string>('Sample ERA5 validation window (unmodified)');
+
+  const executeCustomJsonExperiment = async (payload: CustomExperimentPayload, isSyntheticTemplate: boolean) => {
+    setLoading(true);
+    setError(null);
+    setDbWarning(null);
+    try {
+      const baseRes = await runSimulation(payload.init_states, payload.doy_sincos, payload.steps, null);
+      setNormalRollout(baseRes.rollout);
+      let activeMs = baseRes.inference_ms;
+      if (payload.perturbation) {
+        const pertRes = await runSimulation(
+          payload.init_states,
+          payload.doy_sincos,
+          payload.steps,
+          payload.perturbation,
+        );
+        setPerturbedRollout(pertRes.rollout);
+        activeMs = pertRes.inference_ms;
+      } else {
+        setPerturbedRollout(null);
+      }
+      setInferenceMs(activeMs);
+      setLastSimAt(new Date().toISOString());
+      setDayIdx((prev) => Math.min(prev, Math.max(0, payload.steps - 1)));
+      setBackendHealthy(true);
+      setSimSourceNote(
+        isSyntheticTemplate
+          ? `Custom JSON run (${payload.steps}d) from Synthetic Demo Template · ${modelName ?? 'Active Model'}`
+          : `Custom JSON run (${payload.steps}d) from User JSON Payload · ${modelName ?? 'Active Model'}`,
+      );
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const [selectedRegion, setSelectedRegion] = useState<string>(REGIONS[0].name);
   const [selectedCell, setSelectedCell] = useState<GridCellSelection | null>(null);
@@ -215,6 +253,7 @@ export function App() {
       setInferenceMs(activeMs);
       setLastSimAt(new Date().toISOString());
       setBackendHealthy(true);
+      setSimSourceNote(`Preset "${sc}" on "${win.label}" (10d) · ${modelName ?? 'MonsoonVerse'}`);
 
       if (dbStatus?.connected && (settings.autoSaveToNeon || persistName !== undefined)) {
         const summary = computeRegionalIndicators(normRes.rollout, activePert);
@@ -408,6 +447,9 @@ export function App() {
           showGeoOverlay={settings.showGeoOverlay}
           showGridLines={settings.showGridLines}
           onRun={() => executeSimulation(windowIdx, scenario)}
+          onRunCustomJson={executeCustomJsonExperiment}
+          modelName={modelName}
+          simSourceNote={simSourceNote}
           onReset={handleReset}
           onOpenSave={() => setSaveModalOpen(true)}
           onOpenExport={() => setExportOpen(true)}

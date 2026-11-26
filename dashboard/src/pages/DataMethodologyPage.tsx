@@ -50,9 +50,15 @@ export const DataMethodologyPage: React.FC<DataMethodologyPageProps> = ({ evalua
           </div>
           <p>
             <strong className="text-white">{mm?.model_name ?? 'MonsoonVerse-ClimResCNN'}</strong> is
-            a compact CPU-efficient 2D Residual CNN (32 hidden channels, 5 replicate-padded residual
-            blocks, GroupNorm, SiLU).
+            a deterministic, CPU-efficient 2D Residual CNN (32 hidden channels, 5 replicate-padded residual
+            blocks, GroupNorm, SiLU). Forecasts are deterministic point trajectories, not probabilistic ensemble distributions.
           </p>
+          {evaluation?.active_model?.checkpoint_sha256 && (
+            <p className="font-mono text-[11px] text-cyan-300">
+              Active Variant: {evaluation.active_model.active_variant} · SHA-256:{' '}
+              {evaluation.active_model.checkpoint_sha256.slice(0, 20)}...
+            </p>
+          )}
           <ul className="list-disc space-y-1 pl-5 text-slate-400">
             <li>
               <strong>28 Input Channels:</strong> 3 historical days × 6 dynamic fields (18) + 2

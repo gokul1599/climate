@@ -1,0 +1,78 @@
+{
+  "model_name": "MonsoonVerse-ClimResCNN",
+  "model_version": "incumbent-exp3-v1",
+  "role": "production_incumbent",
+  "architecture": {
+    "class": "MonsoonResCNN",
+    "in_channels": 28,
+    "hidden_channels": 32,
+    "num_blocks": 5,
+    "use_clim_cond": true,
+    "param_count": 103014,
+    "norm": "GroupNorm(8)",
+    "activation": "SiLU",
+    "residual": true
+  },
+  "dataset": {
+    "identifier": "india_climate_train.nc (ERA5 via WeatherBench 2)",
+    "total_days": 6209,
+    "dataset_date_range": "2005-01-01..2021-12-31",
+    "split_method": "chronological_80_20_with_10d_gap",
+    "gap_days": 10,
+    "train_date_range": "2005-01-01..2018-08-07",
+    "val_date_range": "2018-08-18..2021-12-31"
+  },
+  "normalization": {
+    "channels": [
+      "t2m",
+      "tp",
+      "u10",
+      "v10",
+      "msl",
+      "tcwv"
+    ],
+    "mean": [
+      292.3567810058594,
+      3.618067502975464,
+      0.8876520991325378,
+      0.19133219122886658,
+      101122.078125,
+      30.033491134643555
+    ],
+    "std": [
+      13.46363353729248,
+      7.553342342376709,
+      2.8989806175231934,
+      2.4269521236419678,
+      619.0198364257812,
+      20.49437141418457
+    ]
+  },
+  "training": {
+    "seed": 42,
+    "optimizer": "AdamW",
+    "scheduler": "CosineAnnealingLR",
+    "lr": 0.0025,
+    "weight_decay": 0.0001,
+    "batch_size": 64,
+    "rollout_horizon": 8,
+    "epochs": 7,
+    "best_epoch": 7,
+    "best_val_loss": 0.221808061003685,
+    "train_duration_s": 1479.3
+  },
+  "provenance": {
+    "checkpoint_path": "artifacts/model.pt",
+    "checkpoint_sha256": "1eba8c5c2f09aa83f98b071872296eae94c83bf255c48216874db00eeaf1b208",
+    "checkpoint_bytes": 424753,
+    "base_code_commit": "1e3dd1977c1290db73453ab6fa0d46561588d89a",
+    "evaluation_report_ref": "reports/validation_results.json"
+  },
+  "deterministic": true,
+  "limitations": [
+    "1-degree grid (~111 km) smooths sub-grid convective rainfall peaks.",
+    "Forecast skill decays with lead day; Day-8 t2m (-19.1%) and tcwv (-2.8%) trail climatology.",
+    "monsoon_stall shock fails 0/6 seasons on formal >2% outward energy threshold despite 7.38x July growth.",
+    "Experimental climate digital twin; not an operational weather warning system."
+  ]
+}

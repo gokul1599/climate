@@ -20,7 +20,7 @@ from backend.db import (
     list_simulation_runs,
     update_simulation_run,
 )
-from backend.model_loader import load_predictor
+from backend.model_loader import get_model_info, load_predictor
 from backend.response_formatter import format_simulation_response
 from backend.validation import validate_rollout_output, validate_simulate_request
 
@@ -105,17 +105,31 @@ def sample_windows() -> dict[str, Any]:
 
 @app.get("/api/evaluation")
 def evaluation_data() -> dict[str, Any]:
-    """Serve verified evaluation outputs and model metadata read-only from local artifacts."""
+    """Serve verified evaluation outputs, manifests, uncertainty bands, and challenger comparisons."""
     ten_day_path = ROOT_DIR / "evaluation" / "results" / "ten_day_forecast_metrics.json"
     val_path = ROOT_DIR / "reports" / "validation_results.json"
     meta_path = ROOT_DIR / "artifacts" / "model_metadata.json"
     data_meta_path = ROOT_DIR / "data_pipeline" / "metadata.json"
+    inc_man_path = ROOT_DIR / "artifacts" / "incumbent_manifest.json"
+    inc_unc_path = ROOT_DIR / "artifacts" / "incumbent_uncertainty_bands.json"
+    chg_man_path = ROOT_DIR / "artifacts" / "local_resnet_v3" / "manifest.json"
+    chg_unc_path = ROOT_DIR / "artifacts" / "local_resnet_v3" / "uncertainty_bands.json"
+    cmp_path = ROOT_DIR / "reports" / "incumbent_vs_local_resnet_v3.json"
+
+    def _read_json(p: Path) -> Any:
+        return json.loads(p.read_text(encoding="utf-8")) if p.is_file() else None
 
     return {
-        "ten_day": json.loads(ten_day_path.read_text(encoding="utf-8")) if ten_day_path.is_file() else None,
-        "validation": json.loads(val_path.read_text(encoding="utf-8")) if val_path.is_file() else None,
-        "model_metadata": json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.is_file() else None,
-        "dataset_metadata": json.loads(data_meta_path.read_text(encoding="utf-8")) if data_meta_path.is_file() else None,
+        "ten_day": _read_json(ten_day_path),
+        "validation": _read_json(val_path),
+        "model_metadata": _read_json(meta_path),
+        "dataset_metadata": _read_json(data_meta_path),
+        "active_model": get_model_info(),
+        "incumbent_manifest": _read_json(inc_man_path),
+        "incumbent_uncertainty_bands": _read_json(inc_unc_path),
+        "challenger_manifest": _read_json(chg_man_path),
+        "challenger_uncertainty_bands": _read_json(chg_unc_path),
+        "model_comparison": _read_json(cmp_path),
     }
 
 
@@ -128,14 +142,19 @@ def system_status() -> dict[str, Any]:
         (art / fname).is_file()
         for fname in ("model.pt", "stats.json", "static_fields.npz", "climatology.npz")
     )
+    info = get_model_info()
     model_ready = _PREDICTOR is not None and assets_ok
     return {
         "fastapi": "operational",
         "model_loaded": bool(model_ready),
-        "model_name": "MonsoonVerse-ClimResCNN",
+        "model_name": info["model_name"],
+        "active_variant": info["active_variant"],
+        "architecture_summary": info["architecture_summary"],
+        "checkpoint_sha256": info["checkpoint_sha256"],
+        "challenger_available": info["challenger_available"],
         "inference_mode": "cpu-offline",
         "assets_present": assets_ok,
-        "climatology_loaded": bool(_PREDICTOR is not None and _PREDICTOR.clim_norm_366 is not None),
+        "climatology_loaded": bool(getattr(_PREDICTOR, "clim_norm_366", None) is not None),
         "neon": db_st,
     }
 
@@ -186,7 +205,7 @@ async def save_simulation(request: Request) -> dict[str, Any]:
             doy_sincos=[float(x) for x in body["doy_sincos"]],
             steps=int(body["steps"]),
             inference_ms=float(body["inference_ms"]),
-            model_version=str(body.get("model_version", "MonsoonVerse-ClimResCNN")),
+            model_version=str(body.get("model_version", get_model_info()["model_name"])),
             configuration=body.get("configuration"),
             regional_summary=list(body["regional_summary"]),
             anomalies=body.get("anomalies"),
