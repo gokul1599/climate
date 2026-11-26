@@ -2,7 +2,8 @@
 
 - **File**: `brief.pdf` (`7,492` bytes)
 - **Generator**: `docs/generate_brief.py` (ReportLab A4, explicit `PageBreak()`)
-- **Verified Page Count**: `2` pages (`pypdf.PdfReader('brief.pdf').pages` = `2`)
-  - **Page 1**: Model Design, Training & Scientific Validation (dataset, preprocessing, 28-ch `MonsoonResCNN`, curriculum `h=1→4→8` training, baseline comparison table, drift/blurring, failure modes).
-  - **Page 2**: Visualization, Perturbations & Impact (perturbation causality & spatial propagation, dashboard, Impact Explorer agricultural/water screening use case, offline reproducibility, repo integrity).
-- **Visual Check**: Verified clean text extraction on both Page 1 and Page 2; no overflow onto a 3rd page. (Image rendering of PDF pages not executed.)
+- **Page Count**: **PASS** — `2` pages (`pypdf.PdfReader('brief.pdf').pages` = `2`)
+- **Visual Inspection (`pypdfium2` rendered PNGs `brief_page1.png`, `brief_page2.png`)**: **PASS**
+  - Page 1 cleanly presents problem statement, dataset/preprocessing, 28-ch `MonsoonResCNN`, baseline comparison table, drift/blurring, and failure modes.
+  - Page 2 cleanly presents perturbation causality, dashboard, Impact Explorer use case, and offline reproducibility.
+  - Zero clipping, zero overlapping text, legible typography, and balanced A4 margins.

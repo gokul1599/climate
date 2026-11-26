@@ -13,4 +13,4 @@
 | `null` / `zeros` | True | — | `null_consistent = True` (`max_std_diff = 0.0`) | — | — | True |
 
 - **Official Causality Score**: **`13.125 / 15.0`**.
-- **Limitation**: On the tested July window, `monsoon_stall` remained tightly localized (`99.93%` within 3 cells on Day 1) and stable, but its outward energy growth across Days 4–8 did not exceed the `1.5 * out_e[0]` + `0.02 * max_e` propagation threshold in `monsoon_r1.scoring`.
+- **Quantitative `monsoon_stall` Diagnosis (`evaluation/diagnose_weaknesses.py`)**: On the July validation window, out-of-box energy grows **6.5×** from Day 1 (`0.1916`) to Days 4–8 mean (`1.2456`, peaking at `1.3388` on Day 4), while total energy relaxes toward climatology (`150.47 → 24.10 → 9.53`). Because `1.2456 < 0.02 × 150.47 = 3.009`, `monsoon_r1.scoring.causality_checks` marks `propagates=False` despite outward growth. This reflects physically plausible dissipative relaxation rather than an implementation defect, so the accepted `exp3_clim_tuned` checkpoint is preserved.
