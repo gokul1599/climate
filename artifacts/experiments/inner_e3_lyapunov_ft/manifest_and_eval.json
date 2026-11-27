@@ -1,0 +1,74 @@
+{
+  "exp_id": "inner_e3_lyapunov_ft",
+  "hypothesis": "Generic random-patch bounded Lyapunov sensitivity regularizer (0.025*e_init outward floor, 2.5x ceiling)",
+  "elapsed_s": 305.0,
+  "ckpt_sha256": "f1851950694abcf9df1b12b6521cd423b5c8591273e6089c2ea38681bcc2a058",
+  "eval": {
+    "split": "2018-01-01..2019-12-31 (52w, 13 shocks)",
+    "rmse_pts_30": 3.529,
+    "csi_pts_15": 7.336,
+    "anti_blur_pts_10": 10.0,
+    "causality_pts_15": 12.4038,
+    "total_pts_70": 33.2688,
+    "mean_ss": 0.01412,
+    "mean_csi_skill": 0.04891,
+    "warm_prop_count": 8,
+    "stall_prop_count": 0,
+    "warm_rate": 0.6154,
+    "stall_rate": 0.0,
+    "null_rate": 1.0,
+    "all_no_teleport": true,
+    "all_stable": true,
+    "all_localized": true,
+    "validity_failures": 0,
+    "day4_beats_persist": true,
+    "latency_mean_ms": 51.17,
+    "latency_max_ms": 77.79,
+    "day8_var_ratios": [
+      1.1107,
+      0.8535,
+      0.6648,
+      0.7568,
+      1.2478,
+      0.8332
+    ],
+    "leads": {
+      "day_1": {
+        "mean_ss_best": 0.16904,
+        "per_ch_ss_best": {
+          "t2m": 0.0721,
+          "tp": 0.2292,
+          "u10": 0.1597,
+          "v10": 0.1853,
+          "msl": 0.2381,
+          "tcwv": 0.1298
+        },
+        "csi_10mm": 0.4975
+      },
+      "day_4": {
+        "mean_ss_best": -0.00291,
+        "per_ch_ss_best": {
+          "t2m": -0.0535,
+          "tp": 0.0079,
+          "u10": 0.0528,
+          "v10": -0.009,
+          "msl": -0.0454,
+          "tcwv": 0.0298
+        },
+        "csi_10mm": 0.3226
+      },
+      "day_8": {
+        "mean_ss_best": -0.12378,
+        "per_ch_ss_best": {
+          "t2m": -0.2701,
+          "tp": -0.036,
+          "u10": -0.0637,
+          "v10": -0.1016,
+          "msl": -0.1718,
+          "tcwv": -0.0996
+        },
+        "csi_10mm": 0.3351
+      }
+    }
+  }
+}

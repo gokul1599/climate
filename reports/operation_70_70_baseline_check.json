@@ -1,0 +1,26 @@
+{
+  "incumbent_ckpt_sha256": "1eba8c5c2f09aa83f98b071872296eae94c83bf255c48216874db00eeaf1b208",
+  "local_resnet_v3_ckpt_sha256": "9be5ff49724110b3be1483eaa130a6155dda30a96432f98bfbe1f917f62a0c3e",
+  "scoring_py": {
+    "installed_path": "C:\\Users\\gokul\\OneDrive\\Documents\\projects\\Yugaantar-Track2\\.venv\\Lib\\site-packages\\monsoon_r1\\scoring.py",
+    "installed_sha256": "7302dcfcdc4bf137967209e5ac5aabb99e6600476d52e5db46c50be86a55ce92",
+    "official_kit_sha256": "c7ea49ff9b0d294ac43dd8722356f39a205cc93707df9320f2bf2248f2762b74",
+    "exact_match": false
+  },
+  "contract_py": {
+    "installed_path": "C:\\Users\\gokul\\OneDrive\\Documents\\projects\\Yugaantar-Track2\\.venv\\Lib\\site-packages\\monsoon_r1\\contract.py",
+    "installed_sha256": "0a92394817c0a9750784e34ca628bd86cbf6d5e072eda8da7cb17b8f91dad938",
+    "official_kit_sha256": "2d768745ac3a645b294078498f2618306013729beaada68075d0da762d74108c",
+    "exact_match": false
+  },
+  "r1_contract_md_sha256": "2ad8aa3051635e29f01a603819dd259d5ca8469c3c701a87aed748efbcb02e6a",
+  "constants": {
+    "SS_REF": 0.12,
+    "CSI_SS_REF": 0.1,
+    "NONZERO_MIN": 0.001,
+    "LOCAL_MIN_FRAC": 0.6,
+    "STABLE_MAX_STD": 5.0,
+    "DILATE": 3,
+    "MAX_SPEED": 8.0
+  }
+}

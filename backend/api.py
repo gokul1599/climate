@@ -114,7 +114,10 @@ def evaluation_data() -> dict[str, Any]:
     inc_unc_path = ROOT_DIR / "artifacts" / "incumbent_uncertainty_bands.json"
     chg_man_path = ROOT_DIR / "artifacts" / "local_resnet_v3" / "manifest.json"
     chg_unc_path = ROOT_DIR / "artifacts" / "local_resnet_v3" / "uncertainty_bands.json"
+    v4_man_path = ROOT_DIR / "artifacts" / "local_resnet_v4" / "manifest.json"
+    v4_unc_path = ROOT_DIR / "artifacts" / "local_resnet_v4" / "uncertainty_bands.json"
     cmp_path = ROOT_DIR / "reports" / "incumbent_vs_local_resnet_v3.json"
+    op70_path = ROOT_DIR / "reports" / "operation_70_70_experiment_matrix.json"
 
     def _read_json(p: Path) -> Any:
         return json.loads(p.read_text(encoding="utf-8")) if p.is_file() else None
@@ -127,9 +130,10 @@ def evaluation_data() -> dict[str, Any]:
         "active_model": get_model_info(),
         "incumbent_manifest": _read_json(inc_man_path),
         "incumbent_uncertainty_bands": _read_json(inc_unc_path),
-        "challenger_manifest": _read_json(chg_man_path),
-        "challenger_uncertainty_bands": _read_json(chg_unc_path),
+        "challenger_manifest": _read_json(v4_man_path) or _read_json(chg_man_path),
+        "challenger_uncertainty_bands": _read_json(v4_unc_path) or _read_json(chg_unc_path),
         "model_comparison": _read_json(cmp_path),
+        "operation_70_70_matrix": _read_json(op70_path),
     }
 
 

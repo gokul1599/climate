@@ -16,6 +16,7 @@ from ml.local_resnet_v3.dataset import (
     chronological_split_indices,
 )
 from ml.local_resnet_v3.inference import LocalResNetV3Predictor, advance_doy_sincos, make_coord_grid
+from ml.local_resnet_v3.experiment_runner import EnhancedRolloutLoss
 from ml.local_resnet_v3.loss import (
     MonsoonRolloutLoss,
     lat_weighted_huber_loss,
@@ -189,3 +190,18 @@ def test_regional_stress_indicators_and_anomalies():
     anom = compute_scenario_anomalies(roll_norm, roll_pert)
     assert "formulas" in anom
     assert anom["global_mean_delta_tp"] == pytest.approx(8.0)
+
+
+def test_v4_dilations_and_enhanced_rollout_loss():
+    m4 = MonsoonResNet(hidden_dim=64, num_blocks=4, dilations=(1, 2, 4, 1), init_scale=0.25)
+    assert sum(p.numel() for p in m4.parameters()) == 313030
+    assert m4.dilations == [1, 2, 4, 1]
+
+    crit = EnhancedRolloutLoss(mse_mix=0.30, grad_weight=0.14, var_weight=0.10, var_min_ratio=0.72, vort_div_weight=0.08)
+    tgt = torch.randn(2, 8, 6, 32, 36)
+    pred = (tgt * 0.5).clone().requires_grad_(True)
+    loss, comps = crit.forward_with_components(pred, tgt)
+    assert torch.isfinite(loss)
+    assert comps["heavy_rain_extra"] >= 0.0  # stores vort/div term in EnhancedRolloutLoss
+    loss.backward()
+    assert pred.grad is not None and torch.isfinite(pred.grad).all()

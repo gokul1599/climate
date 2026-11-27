@@ -250,7 +250,8 @@ export const ModelPerformancePage: React.FC<ModelPerformancePageProps> = ({
       {/* Deterministic Empirical Out-of-Sample Residual Intervals */}
       {(() => {
         const activeBands =
-          evaluation.active_model?.active_variant === 'local_resnet_v3' &&
+          (evaluation.active_model?.active_variant === 'local_resnet_v4' ||
+            evaluation.active_model?.active_variant === 'local_resnet_v3') &&
           evaluation.challenger_uncertainty_bands
             ? evaluation.challenger_uncertainty_bands
             : evaluation.incumbent_uncertainty_bands;

@@ -1,0 +1,1591 @@
+{
+  "model_name": "MonsoonVerse-LocalResNet-v3",
+  "protocol_a_windows": 52,
+  "aggregate_mean_ss": 0.10661,
+  "required_ss_for_30_of_30": 0.12,
+  "ss_gap_to_30": 0.01339,
+  "matrix_3x6": {
+    "day_1": {
+      "t2m": {
+        "rmse_model": 0.8678,
+        "rmse_persist": 1.057,
+        "rmse_clim": 1.8052,
+        "best_baseline": "persist",
+        "ss_vs_best_ref": 0.179,
+        "ss_vs_persist": 0.179,
+        "ss_vs_clim": 0.51928,
+        "ss_gap_to_012": 0.059,
+        "bias": -0.0029,
+        "corr": 0.9978,
+        "spatial_var_ratio": 0.9957
+      },
+      "tp": {
+        "rmse_model": 4.1913,
+        "rmse_persist": 5.6154,
+        "rmse_clim": 6.0524,
+        "best_baseline": "persist",
+        "ss_vs_best_ref": 0.25361,
+        "ss_vs_persist": 0.25361,
+        "ss_vs_clim": 0.30751,
+        "ss_gap_to_012": 0.13361,
+        "bias": 0.0676,
+        "corr": 0.8163,
+        "spatial_var_ratio": 0.8612
+      },
+      "u10": {
+        "rmse_model": 0.7973,
+        "rmse_persist": 1.0361,
+        "rmse_clim": 1.5987,
+        "best_baseline": "persist",
+        "ss_vs_best_ref": 0.23041,
+        "ss_vs_persist": 0.23041,
+        "ss_vs_clim": 0.50127,
+        "ss_gap_to_012": 0.11041,
+        "bias": 0.0485,
+        "corr": 0.9608,
+        "spatial_var_ratio": 0.9136
+      },
+      "v10": {
+        "rmse_model": 0.7917,
+        "rmse_persist": 1.0448,
+        "rmse_clim": 1.4247,
+        "best_baseline": "persist",
+        "ss_vs_best_ref": 0.24224,
+        "ss_vs_persist": 0.24224,
+        "ss_vs_clim": 0.44432,
+        "ss_gap_to_012": 0.12224,
+        "bias": 0.0731,
+        "corr": 0.9409,
+        "spatial_var_ratio": 0.9391
+      },
+      "msl": {
+        "rmse_model": 150.1811,
+        "rmse_persist": 208.2414,
+        "rmse_clim": 293.7457,
+        "best_baseline": "persist",
+        "ss_vs_best_ref": 0.27881,
+        "ss_vs_persist": 0.27881,
+        "ss_vs_clim": 0.48874,
+        "ss_gap_to_012": 0.15881,
+        "bias": -7.3729,
+        "corr": 0.967,
+        "spatial_var_ratio": 0.9354
+      },
+      "tcwv": {
+        "rmse_model": 2.9263,
+        "rmse_persist": 3.5748,
+        "rmse_clim": 6.4393,
+        "best_baseline": "persist",
+        "ss_vs_best_ref": 0.18141,
+        "ss_vs_persist": 0.18141,
+        "ss_vs_clim": 0.54556,
+        "ss_gap_to_012": 0.06141,
+        "bias": -0.1438,
+        "corr": 0.9906,
+        "spatial_var_ratio": 0.9633
+      }
+    },
+    "day_4": {
+      "t2m": {
+        "rmse_model": 1.6491,
+        "rmse_persist": 1.9693,
+        "rmse_clim": 1.7311,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.04736,
+        "ss_vs_persist": 0.16257,
+        "ss_vs_clim": 0.04736,
+        "ss_gap_to_012": -0.07264,
+        "bias": -0.1137,
+        "corr": 0.992,
+        "spatial_var_ratio": 0.9964
+      },
+      "tp": {
+        "rmse_model": 6.1921,
+        "rmse_persist": 8.7719,
+        "rmse_clim": 6.578,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.05866,
+        "ss_vs_persist": 0.2941,
+        "ss_vs_clim": 0.05866,
+        "ss_gap_to_012": -0.06134,
+        "bias": 0.1245,
+        "corr": 0.621,
+        "spatial_var_ratio": 0.9013
+      },
+      "u10": {
+        "rmse_model": 1.5068,
+        "rmse_persist": 2.0365,
+        "rmse_clim": 1.6754,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.10065,
+        "ss_vs_persist": 0.26012,
+        "ss_vs_clim": 0.10065,
+        "ss_gap_to_012": -0.01935,
+        "bias": 0.0896,
+        "corr": 0.8627,
+        "spatial_var_ratio": 0.8794
+      },
+      "v10": {
+        "rmse_model": 1.3798,
+        "rmse_persist": 2.017,
+        "rmse_clim": 1.4341,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.03785,
+        "ss_vs_persist": 0.31591,
+        "ss_vs_clim": 0.03785,
+        "ss_gap_to_012": -0.08215,
+        "bias": 0.0793,
+        "corr": 0.8215,
+        "spatial_var_ratio": 0.8247
+      },
+      "msl": {
+        "rmse_model": 257.2171,
+        "rmse_persist": 359.8529,
+        "rmse_clim": 291.9887,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.11909,
+        "ss_vs_persist": 0.28522,
+        "ss_vs_clim": 0.11909,
+        "ss_gap_to_012": -0.00091,
+        "bias": -30.9542,
+        "corr": 0.9027,
+        "spatial_var_ratio": 0.9134
+      },
+      "tcwv": {
+        "rmse_model": 5.6298,
+        "rmse_persist": 7.2917,
+        "rmse_clim": 6.2853,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.10429,
+        "ss_vs_persist": 0.22791,
+        "ss_vs_clim": 0.10429,
+        "ss_gap_to_012": -0.01571,
+        "bias": -0.4144,
+        "corr": 0.9649,
+        "spatial_var_ratio": 0.9128
+      }
+    },
+    "day_8": {
+      "t2m": {
+        "rmse_model": 1.8715,
+        "rmse_persist": 2.2318,
+        "rmse_clim": 1.8291,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": -0.02322,
+        "ss_vs_persist": 0.16141,
+        "ss_vs_clim": -0.02322,
+        "ss_gap_to_012": -0.14322,
+        "bias": -0.1202,
+        "corr": 0.9896,
+        "spatial_var_ratio": 1.0062
+      },
+      "tp": {
+        "rmse_model": 7.0869,
+        "rmse_persist": 9.2926,
+        "rmse_clim": 7.1063,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.00273,
+        "ss_vs_persist": 0.23736,
+        "ss_vs_clim": 0.00273,
+        "ss_gap_to_012": -0.11727,
+        "bias": 0.1958,
+        "corr": 0.5048,
+        "spatial_var_ratio": 1.0822
+      },
+      "u10": {
+        "rmse_model": 1.711,
+        "rmse_persist": 2.2496,
+        "rmse_clim": 1.7564,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.02585,
+        "ss_vs_persist": 0.23942,
+        "ss_vs_clim": 0.02585,
+        "ss_gap_to_012": -0.09415,
+        "bias": 0.1781,
+        "corr": 0.8206,
+        "spatial_var_ratio": 0.8739
+      },
+      "v10": {
+        "rmse_model": 1.4838,
+        "rmse_persist": 1.9979,
+        "rmse_clim": 1.4812,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": -0.0017,
+        "ss_vs_persist": 0.25734,
+        "ss_vs_clim": -0.0017,
+        "ss_gap_to_012": -0.1217,
+        "bias": 0.1005,
+        "corr": 0.7848,
+        "spatial_var_ratio": 0.8674
+      },
+      "msl": {
+        "rmse_model": 299.3727,
+        "rmse_persist": 402.5073,
+        "rmse_clim": 313.0132,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.04358,
+        "ss_vs_persist": 0.25623,
+        "ss_vs_clim": 0.04358,
+        "ss_gap_to_012": -0.07642,
+        "bias": -51.4044,
+        "corr": 0.874,
+        "spatial_var_ratio": 0.9688
+      },
+      "tcwv": {
+        "rmse_model": 6.4393,
+        "rmse_persist": 8.3807,
+        "rmse_clim": 6.6963,
+        "best_baseline": "clim",
+        "ss_vs_best_ref": 0.03838,
+        "ss_vs_persist": 0.23165,
+        "ss_vs_clim": 0.03838,
+        "ss_gap_to_012": -0.08162,
+        "bias": -1.0309,
+        "corr": 0.9553,
+        "spatial_var_ratio": 0.9098
+      }
+    }
+  },
+  "drift_10d": [
+    {
+      "day": 1,
+      "mean_ss_best": 0.22758,
+      "per_channel_ss_best": {
+        "t2m": 0.179,
+        "tp": 0.2536,
+        "u10": 0.2304,
+        "v10": 0.2422,
+        "msl": 0.2788,
+        "tcwv": 0.1814
+      },
+      "per_channel_bias": {
+        "t2m": -0.0029,
+        "tp": 0.0676,
+        "u10": 0.0485,
+        "v10": 0.0731,
+        "msl": -7.3729,
+        "tcwv": -0.1438
+      }
+    },
+    {
+      "day": 2,
+      "mean_ss_best": 0.21019,
+      "per_channel_ss_best": {
+        "t2m": 0.1733,
+        "tp": 0.1397,
+        "u10": 0.2493,
+        "v10": 0.2371,
+        "msl": 0.2405,
+        "tcwv": 0.2212
+      },
+      "per_channel_bias": {
+        "t2m": -0.0047,
+        "tp": 0.1051,
+        "u10": 0.0831,
+        "v10": 0.092,
+        "msl": -23.3456,
+        "tcwv": -0.2583
+      }
+    },
+    {
+      "day": 3,
+      "mean_ss_best": 0.13611,
+      "per_channel_ss_best": {
+        "t2m": 0.122,
+        "tp": 0.0823,
+        "u10": 0.1518,
+        "v10": 0.1195,
+        "msl": 0.154,
+        "tcwv": 0.1871
+      },
+      "per_channel_bias": {
+        "t2m": -0.0708,
+        "tp": 0.1407,
+        "u10": 0.1019,
+        "v10": 0.1168,
+        "msl": -30.1942,
+        "tcwv": -0.3297
+      }
+    },
+    {
+      "day": 4,
+      "mean_ss_best": 0.07798,
+      "per_channel_ss_best": {
+        "t2m": 0.0474,
+        "tp": 0.0587,
+        "u10": 0.1007,
+        "v10": 0.0378,
+        "msl": 0.1191,
+        "tcwv": 0.1043
+      },
+      "per_channel_bias": {
+        "t2m": -0.1137,
+        "tp": 0.1245,
+        "u10": 0.0896,
+        "v10": 0.0793,
+        "msl": -30.9542,
+        "tcwv": -0.4144
+      }
+    },
+    {
+      "day": 5,
+      "mean_ss_best": 0.04433,
+      "per_channel_ss_best": {
+        "t2m": -0.0009,
+        "tp": 0.0262,
+        "u10": 0.0726,
+        "v10": 0.0033,
+        "msl": 0.0995,
+        "tcwv": 0.0652
+      },
+      "per_channel_bias": {
+        "t2m": -0.1401,
+        "tp": 0.191,
+        "u10": 0.0949,
+        "v10": 0.0709,
+        "msl": -13.586,
+        "tcwv": -0.4216
+      }
+    },
+    {
+      "day": 6,
+      "mean_ss_best": 0.02758,
+      "per_channel_ss_best": {
+        "t2m": -0.0072,
+        "tp": -0.0105,
+        "u10": 0.0456,
+        "v10": 0.0025,
+        "msl": 0.0917,
+        "tcwv": 0.0434
+      },
+      "per_channel_bias": {
+        "t2m": -0.1106,
+        "tp": 0.2233,
+        "u10": 0.1099,
+        "v10": 0.0527,
+        "msl": -4.8786,
+        "tcwv": -0.5041
+      }
+    },
+    {
+      "day": 7,
+      "mean_ss_best": 0.01642,
+      "per_channel_ss_best": {
+        "t2m": -0.0089,
+        "tp": -0.0128,
+        "u10": 0.0226,
+        "v10": -0.0001,
+        "msl": 0.0677,
+        "tcwv": 0.0301
+      },
+      "per_channel_bias": {
+        "t2m": -0.0822,
+        "tp": 0.231,
+        "u10": 0.1743,
+        "v10": 0.0742,
+        "msl": -26.8313,
+        "tcwv": -0.7762
+      }
+    },
+    {
+      "day": 8,
+      "mean_ss_best": 0.01427,
+      "per_channel_ss_best": {
+        "t2m": -0.0232,
+        "tp": 0.0027,
+        "u10": 0.0259,
+        "v10": -0.0017,
+        "msl": 0.0436,
+        "tcwv": 0.0384
+      },
+      "per_channel_bias": {
+        "t2m": -0.1202,
+        "tp": 0.1958,
+        "u10": 0.1781,
+        "v10": 0.1005,
+        "msl": -51.4044,
+        "tcwv": -1.0309
+      }
+    },
+    {
+      "day": 9,
+      "mean_ss_best": 0.00415,
+      "per_channel_ss_best": {
+        "t2m": -0.0677,
+        "tp": 0.0003,
+        "u10": 0.0298,
+        "v10": 0.0075,
+        "msl": 0.0192,
+        "tcwv": 0.0358
+      },
+      "per_channel_bias": {
+        "t2m": -0.1675,
+        "tp": 0.2828,
+        "u10": 0.1683,
+        "v10": 0.1215,
+        "msl": -60.1926,
+        "tcwv": -1.0908
+      }
+    },
+    {
+      "day": 10,
+      "mean_ss_best": -0.00638,
+      "per_channel_ss_best": {
+        "t2m": -0.0953,
+        "tp": 0.0002,
+        "u10": 0.0267,
+        "v10": 0.0078,
+        "msl": -0.0006,
+        "tcwv": 0.0229
+      },
+      "per_channel_bias": {
+        "t2m": -0.1381,
+        "tp": 0.1426,
+        "u10": 0.1702,
+        "v10": 0.114,
+        "msl": -36.0969,
+        "tcwv": -1.0097
+      }
+    }
+  ],
+  "seasonal_attribution": {
+    "DJF_Winter": {
+      "num_windows": 14,
+      "mean_ss_18": 0.08405,
+      "channel_mean_ss": {
+        "t2m": 0.0614,
+        "tp": 0.1133,
+        "u10": 0.0732,
+        "v10": 0.0614,
+        "msl": 0.1084,
+        "tcwv": 0.0866
+      }
+    },
+    "MAM_PreMonsoon": {
+      "num_windows": 12,
+      "mean_ss_18": 0.1081,
+      "channel_mean_ss": {
+        "t2m": 0.0309,
+        "tp": 0.116,
+        "u10": 0.1197,
+        "v10": 0.0973,
+        "msl": 0.1694,
+        "tcwv": 0.1153
+      }
+    },
+    "JJAS_Monsoon": {
+      "num_windows": 18,
+      "mean_ss_18": 0.08644,
+      "channel_mean_ss": {
+        "t2m": 0.0085,
+        "tp": 0.0934,
+        "u10": 0.0996,
+        "v10": 0.0977,
+        "msl": 0.1176,
+        "tcwv": 0.1018
+      }
+    },
+    "OND_PostMonsoon": {
+      "num_windows": 8,
+      "mean_ss_18": 0.1604,
+      "channel_mean_ss": {
+        "t2m": 0.1913,
+        "tp": 0.112,
+        "u10": 0.1938,
+        "v10": 0.1119,
+        "msl": 0.2147,
+        "tcwv": 0.1387
+      }
+    }
+  },
+  "regional_attribution": {
+    "Western Ghats & Konkan": {
+      "day_1": {
+        "t2m": {
+          "rmse": 0.5464,
+          "clim_rmse": 0.9314,
+          "bias": -0.0009
+        },
+        "tp": {
+          "rmse": 5.0404,
+          "clim_rmse": 7.8311,
+          "bias": -0.4264
+        },
+        "u10": {
+          "rmse": 0.6916,
+          "clim_rmse": 1.2971,
+          "bias": 0.0798
+        },
+        "v10": {
+          "rmse": 0.8156,
+          "clim_rmse": 1.4907,
+          "bias": -0.0311
+        },
+        "msl": {
+          "rmse": 67.5147,
+          "clim_rmse": 169.7691,
+          "bias": -4.5682
+        },
+        "tcwv": {
+          "rmse": 3.3115,
+          "clim_rmse": 7.5377,
+          "bias": -0.0403
+        }
+      },
+      "day_4": {
+        "t2m": {
+          "rmse": 1.1203,
+          "clim_rmse": 0.9603,
+          "bias": -0.1137
+        },
+        "tp": {
+          "rmse": 6.7624,
+          "clim_rmse": 8.3803,
+          "bias": 0.5094
+        },
+        "u10": {
+          "rmse": 1.2711,
+          "clim_rmse": 1.4847,
+          "bias": 0.1947
+        },
+        "v10": {
+          "rmse": 1.2849,
+          "clim_rmse": 1.3946,
+          "bias": 0.0319
+        },
+        "msl": {
+          "rmse": 135.8245,
+          "clim_rmse": 183.215,
+          "bias": -33.9451
+        },
+        "tcwv": {
+          "rmse": 6.4851,
+          "clim_rmse": 7.7224,
+          "bias": -0.0134
+        }
+      },
+      "day_8": {
+        "t2m": {
+          "rmse": 1.0757,
+          "clim_rmse": 0.9958,
+          "bias": -0.0635
+        },
+        "tp": {
+          "rmse": 11.8434,
+          "clim_rmse": 12.5682,
+          "bias": -1.165
+        },
+        "u10": {
+          "rmse": 1.6759,
+          "clim_rmse": 1.7995,
+          "bias": 0.3983
+        },
+        "v10": {
+          "rmse": 1.4283,
+          "clim_rmse": 1.4997,
+          "bias": -0.0814
+        },
+        "msl": {
+          "rmse": 186.0931,
+          "clim_rmse": 206.6751,
+          "bias": -20.7025
+        },
+        "tcwv": {
+          "rmse": 7.5091,
+          "clim_rmse": 8.4189,
+          "bias": -2.2002
+        }
+      }
+    },
+    "Central India Monsoon Core": {
+      "day_1": {
+        "t2m": {
+          "rmse": 0.8233,
+          "clim_rmse": 1.8834,
+          "bias": -0.033
+        },
+        "tp": {
+          "rmse": 4.2221,
+          "clim_rmse": 7.1249,
+          "bias": 0.012
+        },
+        "u10": {
+          "rmse": 0.5676,
+          "clim_rmse": 1.1072,
+          "bias": 0.0601
+        },
+        "v10": {
+          "rmse": 0.5759,
+          "clim_rmse": 0.9018,
+          "bias": 0.0926
+        },
+        "msl": {
+          "rmse": 86.2155,
+          "clim_rmse": 237.6767,
+          "bias": -15.0263
+        },
+        "tcwv": {
+          "rmse": 3.5189,
+          "clim_rmse": 7.701,
+          "bias": -0.1138
+        }
+      },
+      "day_4": {
+        "t2m": {
+          "rmse": 1.7354,
+          "clim_rmse": 1.728,
+          "bias": -0.2339
+        },
+        "tp": {
+          "rmse": 6.1514,
+          "clim_rmse": 6.3,
+          "bias": -0.0433
+        },
+        "u10": {
+          "rmse": 1.2007,
+          "clim_rmse": 1.3187,
+          "bias": 0.013
+        },
+        "v10": {
+          "rmse": 1.002,
+          "clim_rmse": 0.9686,
+          "bias": 0.0812
+        },
+        "msl": {
+          "rmse": 206.6434,
+          "clim_rmse": 262.9509,
+          "bias": -28.1303
+        },
+        "tcwv": {
+          "rmse": 6.4062,
+          "clim_rmse": 7.2171,
+          "bias": -0.5557
+        }
+      },
+      "day_8": {
+        "t2m": {
+          "rmse": 1.659,
+          "clim_rmse": 1.8316,
+          "bias": -0.0034
+        },
+        "tp": {
+          "rmse": 6.4838,
+          "clim_rmse": 6.5574,
+          "bias": 0.2092
+        },
+        "u10": {
+          "rmse": 1.142,
+          "clim_rmse": 1.2152,
+          "bias": 0.1631
+        },
+        "v10": {
+          "rmse": 0.9001,
+          "clim_rmse": 0.9343,
+          "bias": 0.1043
+        },
+        "msl": {
+          "rmse": 238.0107,
+          "clim_rmse": 256.6128,
+          "bias": -85.3669
+        },
+        "tcwv": {
+          "rmse": 7.6455,
+          "clim_rmse": 8.3018,
+          "bias": -2.8052
+        }
+      }
+    },
+    "Indo-Gangetic Plain": {
+      "day_1": {
+        "t2m": {
+          "rmse": 1.0649,
+          "clim_rmse": 2.1793,
+          "bias": 0.0083
+        },
+        "tp": {
+          "rmse": 4.0767,
+          "clim_rmse": 5.4626,
+          "bias": 0.041
+        },
+        "u10": {
+          "rmse": 0.6329,
+          "clim_rmse": 1.1645,
+          "bias": -0.0078
+        },
+        "v10": {
+          "rmse": 0.5256,
+          "clim_rmse": 0.6972,
+          "bias": 0.0118
+        },
+        "msl": {
+          "rmse": 113.6558,
+          "clim_rmse": 263.5245,
+          "bias": -11.3531
+        },
+        "tcwv": {
+          "rmse": 3.2427,
+          "clim_rmse": 5.7326,
+          "bias": -0.0399
+        }
+      },
+      "day_4": {
+        "t2m": {
+          "rmse": 2.025,
+          "clim_rmse": 1.9295,
+          "bias": -0.3614
+        },
+        "tp": {
+          "rmse": 4.583,
+          "clim_rmse": 4.4664,
+          "bias": 0.3065
+        },
+        "u10": {
+          "rmse": 1.1908,
+          "clim_rmse": 1.318,
+          "bias": 0.0509
+        },
+        "v10": {
+          "rmse": 0.7512,
+          "clim_rmse": 0.7146,
+          "bias": 0.0412
+        },
+        "msl": {
+          "rmse": 272.5536,
+          "clim_rmse": 296.3849,
+          "bias": -20.5079
+        },
+        "tcwv": {
+          "rmse": 5.1922,
+          "clim_rmse": 5.6402,
+          "bias": -0.5016
+        }
+      },
+      "day_8": {
+        "t2m": {
+          "rmse": 2.0221,
+          "clim_rmse": 2.1471,
+          "bias": 0.1641
+        },
+        "tp": {
+          "rmse": 4.2577,
+          "clim_rmse": 4.1668,
+          "bias": 0.2394
+        },
+        "u10": {
+          "rmse": 1.2882,
+          "clim_rmse": 1.3337,
+          "bias": 0.1541
+        },
+        "v10": {
+          "rmse": 0.7316,
+          "clim_rmse": 0.7256,
+          "bias": 0.0204
+        },
+        "msl": {
+          "rmse": 281.1266,
+          "clim_rmse": 303.3594,
+          "bias": -93.6869
+        },
+        "tcwv": {
+          "rmse": 5.9162,
+          "clim_rmse": 6.258,
+          "bias": -1.8067
+        }
+      }
+    },
+    "Northeast India": {
+      "day_1": {
+        "t2m": {
+          "rmse": 0.7155,
+          "clim_rmse": 1.553,
+          "bias": 0.027
+        },
+        "tp": {
+          "rmse": 4.5478,
+          "clim_rmse": 6.3699,
+          "bias": 0.9215
+        },
+        "u10": {
+          "rmse": 0.4152,
+          "clim_rmse": 0.5824,
+          "bias": 0.0028
+        },
+        "v10": {
+          "rmse": 0.4234,
+          "clim_rmse": 0.6687,
+          "bias": 0.0285
+        },
+        "msl": {
+          "rmse": 88.2057,
+          "clim_rmse": 230.9401,
+          "bias": -3.6404
+        },
+        "tcwv": {
+          "rmse": 2.4424,
+          "clim_rmse": 5.4265,
+          "bias": -0.1333
+        }
+      },
+      "day_4": {
+        "t2m": {
+          "rmse": 1.5234,
+          "clim_rmse": 1.5386,
+          "bias": -0.082
+        },
+        "tp": {
+          "rmse": 7.1537,
+          "clim_rmse": 7.0687,
+          "bias": 0.8227
+        },
+        "u10": {
+          "rmse": 0.5821,
+          "clim_rmse": 0.5668,
+          "bias": 0.019
+        },
+        "v10": {
+          "rmse": 0.6104,
+          "clim_rmse": 0.6245,
+          "bias": 0.04
+        },
+        "msl": {
+          "rmse": 235.9113,
+          "clim_rmse": 263.6911,
+          "bias": -32.7895
+        },
+        "tcwv": {
+          "rmse": 4.5575,
+          "clim_rmse": 4.5827,
+          "bias": -0.1128
+        }
+      },
+      "day_8": {
+        "t2m": {
+          "rmse": 1.7961,
+          "clim_rmse": 1.6099,
+          "bias": -0.0524
+        },
+        "tp": {
+          "rmse": 7.3357,
+          "clim_rmse": 6.8165,
+          "bias": 1.3179
+        },
+        "u10": {
+          "rmse": 0.6133,
+          "clim_rmse": 0.5403,
+          "bias": -0.0763
+        },
+        "v10": {
+          "rmse": 0.642,
+          "clim_rmse": 0.6023,
+          "bias": 0.1097
+        },
+        "msl": {
+          "rmse": 257.4454,
+          "clim_rmse": 270.1791,
+          "bias": -87.5531
+        },
+        "tcwv": {
+          "rmse": 5.5002,
+          "clim_rmse": 5.4712,
+          "bias": -0.8899
+        }
+      }
+    },
+    "Bay of Bengal": {
+      "day_1": {
+        "t2m": {
+          "rmse": 0.4351,
+          "clim_rmse": 0.6034,
+          "bias": 0.0175
+        },
+        "tp": {
+          "rmse": 5.907,
+          "clim_rmse": 8.5159,
+          "bias": 0.14
+        },
+        "u10": {
+          "rmse": 0.9815,
+          "clim_rmse": 2.3134,
+          "bias": 0.1
+        },
+        "v10": {
+          "rmse": 0.9849,
+          "clim_rmse": 2.2374,
+          "bias": 0.2728
+        },
+        "msl": {
+          "rmse": 74.1679,
+          "clim_rmse": 186.919,
+          "bias": -0.669
+        },
+        "tcwv": {
+          "rmse": 3.4401,
+          "clim_rmse": 7.8202,
+          "bias": -0.1205
+        }
+      },
+      "day_4": {
+        "t2m": {
+          "rmse": 0.7389,
+          "clim_rmse": 0.6331,
+          "bias": -0.0705
+        },
+        "tp": {
+          "rmse": 8.215,
+          "clim_rmse": 8.7175,
+          "bias": 0.3461
+        },
+        "u10": {
+          "rmse": 2.213,
+          "clim_rmse": 2.5788,
+          "bias": 0.2657
+        },
+        "v10": {
+          "rmse": 2.1154,
+          "clim_rmse": 2.1656,
+          "bias": 0.1295
+        },
+        "msl": {
+          "rmse": 182.2511,
+          "clim_rmse": 226.9387,
+          "bias": -14.1028
+        },
+        "tcwv": {
+          "rmse": 6.6784,
+          "clim_rmse": 7.275,
+          "bias": -0.5736
+        }
+      },
+      "day_8": {
+        "t2m": {
+          "rmse": 0.9535,
+          "clim_rmse": 0.6445,
+          "bias": -0.2784
+        },
+        "tp": {
+          "rmse": 9.2598,
+          "clim_rmse": 9.3606,
+          "bias": 1.1603
+        },
+        "u10": {
+          "rmse": 2.5048,
+          "clim_rmse": 2.5268,
+          "bias": 0.576
+        },
+        "v10": {
+          "rmse": 2.0835,
+          "clim_rmse": 2.0828,
+          "bias": 0.4591
+        },
+        "msl": {
+          "rmse": 209.3841,
+          "clim_rmse": 218.1048,
+          "bias": -47.6364
+        },
+        "tcwv": {
+          "rmse": 7.2945,
+          "clim_rmse": 7.539,
+          "bias": -0.8037
+        }
+      }
+    },
+    "Arabian Sea": {
+      "day_1": {
+        "t2m": {
+          "rmse": 0.4114,
+          "clim_rmse": 0.6768,
+          "bias": -0.0153
+        },
+        "tp": {
+          "rmse": 4.3163,
+          "clim_rmse": 6.9603,
+          "bias": -0.0428
+        },
+        "u10": {
+          "rmse": 0.8934,
+          "clim_rmse": 1.9149,
+          "bias": 0.038
+        },
+        "v10": {
+          "rmse": 1.0237,
+          "clim_rmse": 1.9173,
+          "bias": 0.0947
+        },
+        "msl": {
+          "rmse": 71.4202,
+          "clim_rmse": 176.3262,
+          "bias": 1.2334
+        },
+        "tcwv": {
+          "rmse": 3.2903,
+          "clim_rmse": 8.4015,
+          "bias": -0.073
+        }
+      },
+      "day_4": {
+        "t2m": {
+          "rmse": 0.7453,
+          "clim_rmse": 0.6413,
+          "bias": -0.0585
+        },
+        "tp": {
+          "rmse": 5.9314,
+          "clim_rmse": 7.1282,
+          "bias": -0.1054
+        },
+        "u10": {
+          "rmse": 1.6385,
+          "clim_rmse": 1.9566,
+          "bias": 0.0179
+        },
+        "v10": {
+          "rmse": 1.7486,
+          "clim_rmse": 1.8877,
+          "bias": 0.1135
+        },
+        "msl": {
+          "rmse": 137.2858,
+          "clim_rmse": 180.588,
+          "bias": -21.7783
+        },
+        "tcwv": {
+          "rmse": 6.5015,
+          "clim_rmse": 8.0123,
+          "bias": -0.8105
+        }
+      },
+      "day_8": {
+        "t2m": {
+          "rmse": 0.8339,
+          "clim_rmse": 0.6256,
+          "bias": -0.1373
+        },
+        "tp": {
+          "rmse": 10.2877,
+          "clim_rmse": 10.6658,
+          "bias": -1.5461
+        },
+        "u10": {
+          "rmse": 2.1604,
+          "clim_rmse": 2.3635,
+          "bias": 0.0333
+        },
+        "v10": {
+          "rmse": 2.0639,
+          "clim_rmse": 2.1278,
+          "bias": -0.0521
+        },
+        "msl": {
+          "rmse": 178.5383,
+          "clim_rmse": 196.5749,
+          "bias": 3.9955
+        },
+        "tcwv": {
+          "rmse": 8.2348,
+          "clim_rmse": 8.8702,
+          "bias": -2.4321
+        }
+      }
+    }
+  },
+  "worst_10_windows": [
+    {
+      "window_idx": 11,
+      "init_end_date": "2020-06-05",
+      "month": 6,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.071,
+      "d4_tp_rmse": 7.834
+    },
+    {
+      "window_idx": 18,
+      "init_end_date": "2020-09-11",
+      "month": 9,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0534,
+      "d4_tp_rmse": 4.037
+    },
+    {
+      "window_idx": 12,
+      "init_end_date": "2020-06-19",
+      "month": 6,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0264,
+      "d4_tp_rmse": 6.292
+    },
+    {
+      "window_idx": 40,
+      "init_end_date": "2021-07-16",
+      "month": 7,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0216,
+      "d4_tp_rmse": 8.106
+    },
+    {
+      "window_idx": 43,
+      "init_end_date": "2021-08-27",
+      "month": 8,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0206,
+      "d4_tp_rmse": 6.3
+    },
+    {
+      "window_idx": 31,
+      "init_end_date": "2021-03-12",
+      "month": 3,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": -0.0161,
+      "d4_tp_rmse": 2.25
+    },
+    {
+      "window_idx": 29,
+      "init_end_date": "2021-02-12",
+      "month": 2,
+      "season": "DJF_Winter",
+      "mean_ss_best": -0.0145,
+      "d4_tp_rmse": 1.717
+    },
+    {
+      "window_idx": 42,
+      "init_end_date": "2021-08-13",
+      "month": 8,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0105,
+      "d4_tp_rmse": 7.212
+    },
+    {
+      "window_idx": 45,
+      "init_end_date": "2021-09-24",
+      "month": 9,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0066,
+      "d4_tp_rmse": 9.142
+    },
+    {
+      "window_idx": 25,
+      "init_end_date": "2020-12-18",
+      "month": 12,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0029,
+      "d4_tp_rmse": 5.803
+    }
+  ],
+  "per_window_all_52": [
+    {
+      "window_idx": 0,
+      "init_end_date": "2020-01-03",
+      "month": 1,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0461,
+      "d4_tp_rmse": 2.475
+    },
+    {
+      "window_idx": 1,
+      "init_end_date": "2020-01-17",
+      "month": 1,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0128,
+      "d4_tp_rmse": 1.312
+    },
+    {
+      "window_idx": 2,
+      "init_end_date": "2020-01-31",
+      "month": 1,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0089,
+      "d4_tp_rmse": 1.479
+    },
+    {
+      "window_idx": 3,
+      "init_end_date": "2020-02-14",
+      "month": 2,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0085,
+      "d4_tp_rmse": 2.916
+    },
+    {
+      "window_idx": 4,
+      "init_end_date": "2020-02-28",
+      "month": 2,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0325,
+      "d4_tp_rmse": 1.649
+    },
+    {
+      "window_idx": 5,
+      "init_end_date": "2020-03-13",
+      "month": 3,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.0258,
+      "d4_tp_rmse": 1.574
+    },
+    {
+      "window_idx": 6,
+      "init_end_date": "2020-03-27",
+      "month": 3,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.0652,
+      "d4_tp_rmse": 3.617
+    },
+    {
+      "window_idx": 7,
+      "init_end_date": "2020-04-10",
+      "month": 4,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.1164,
+      "d4_tp_rmse": 3.752
+    },
+    {
+      "window_idx": 8,
+      "init_end_date": "2020-04-24",
+      "month": 4,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.0424,
+      "d4_tp_rmse": 3.078
+    },
+    {
+      "window_idx": 9,
+      "init_end_date": "2020-05-08",
+      "month": 5,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.088,
+      "d4_tp_rmse": 4.731
+    },
+    {
+      "window_idx": 10,
+      "init_end_date": "2020-05-22",
+      "month": 5,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.0383,
+      "d4_tp_rmse": 8.3
+    },
+    {
+      "window_idx": 11,
+      "init_end_date": "2020-06-05",
+      "month": 6,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.071,
+      "d4_tp_rmse": 7.834
+    },
+    {
+      "window_idx": 12,
+      "init_end_date": "2020-06-19",
+      "month": 6,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0264,
+      "d4_tp_rmse": 6.292
+    },
+    {
+      "window_idx": 13,
+      "init_end_date": "2020-07-03",
+      "month": 7,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.0251,
+      "d4_tp_rmse": 11.601
+    },
+    {
+      "window_idx": 14,
+      "init_end_date": "2020-07-17",
+      "month": 7,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.0758,
+      "d4_tp_rmse": 7.747
+    },
+    {
+      "window_idx": 15,
+      "init_end_date": "2020-07-31",
+      "month": 7,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.0826,
+      "d4_tp_rmse": 12.513
+    },
+    {
+      "window_idx": 16,
+      "init_end_date": "2020-08-14",
+      "month": 8,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.097,
+      "d4_tp_rmse": 8.854
+    },
+    {
+      "window_idx": 17,
+      "init_end_date": "2020-08-28",
+      "month": 8,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.1441,
+      "d4_tp_rmse": 7.047
+    },
+    {
+      "window_idx": 18,
+      "init_end_date": "2020-09-11",
+      "month": 9,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0534,
+      "d4_tp_rmse": 4.037
+    },
+    {
+      "window_idx": 19,
+      "init_end_date": "2020-09-25",
+      "month": 9,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.0508,
+      "d4_tp_rmse": 5.812
+    },
+    {
+      "window_idx": 20,
+      "init_end_date": "2020-10-09",
+      "month": 10,
+      "season": "OND_PostMonsoon",
+      "mean_ss_best": 0.1075,
+      "d4_tp_rmse": 7.978
+    },
+    {
+      "window_idx": 21,
+      "init_end_date": "2020-10-23",
+      "month": 10,
+      "season": "OND_PostMonsoon",
+      "mean_ss_best": 0.0229,
+      "d4_tp_rmse": 3.395
+    },
+    {
+      "window_idx": 22,
+      "init_end_date": "2020-11-06",
+      "month": 11,
+      "season": "OND_PostMonsoon",
+      "mean_ss_best": 0.0723,
+      "d4_tp_rmse": 4.252
+    },
+    {
+      "window_idx": 23,
+      "init_end_date": "2020-11-20",
+      "month": 11,
+      "season": "OND_PostMonsoon",
+      "mean_ss_best": 0.0861,
+      "d4_tp_rmse": 9.862
+    },
+    {
+      "window_idx": 24,
+      "init_end_date": "2020-12-04",
+      "month": 12,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0255,
+      "d4_tp_rmse": 5.208
+    },
+    {
+      "window_idx": 25,
+      "init_end_date": "2020-12-18",
+      "month": 12,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0029,
+      "d4_tp_rmse": 5.803
+    },
+    {
+      "window_idx": 26,
+      "init_end_date": "2021-01-01",
+      "month": 1,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0336,
+      "d4_tp_rmse": 8.025
+    },
+    {
+      "window_idx": 27,
+      "init_end_date": "2021-01-15",
+      "month": 1,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0148,
+      "d4_tp_rmse": 2.554
+    },
+    {
+      "window_idx": 28,
+      "init_end_date": "2021-01-29",
+      "month": 1,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0186,
+      "d4_tp_rmse": 1.502
+    },
+    {
+      "window_idx": 29,
+      "init_end_date": "2021-02-12",
+      "month": 2,
+      "season": "DJF_Winter",
+      "mean_ss_best": -0.0145,
+      "d4_tp_rmse": 1.717
+    },
+    {
+      "window_idx": 30,
+      "init_end_date": "2021-02-26",
+      "month": 2,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0635,
+      "d4_tp_rmse": 0.915
+    },
+    {
+      "window_idx": 31,
+      "init_end_date": "2021-03-12",
+      "month": 3,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": -0.0161,
+      "d4_tp_rmse": 2.25
+    },
+    {
+      "window_idx": 32,
+      "init_end_date": "2021-03-26",
+      "month": 3,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.0285,
+      "d4_tp_rmse": 4.008
+    },
+    {
+      "window_idx": 33,
+      "init_end_date": "2021-04-09",
+      "month": 4,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.0264,
+      "d4_tp_rmse": 3.097
+    },
+    {
+      "window_idx": 34,
+      "init_end_date": "2021-04-23",
+      "month": 4,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.0756,
+      "d4_tp_rmse": 2.871
+    },
+    {
+      "window_idx": 35,
+      "init_end_date": "2021-05-07",
+      "month": 5,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.0109,
+      "d4_tp_rmse": 6.91
+    },
+    {
+      "window_idx": 36,
+      "init_end_date": "2021-05-21",
+      "month": 5,
+      "season": "MAM_PreMonsoon",
+      "mean_ss_best": 0.1024,
+      "d4_tp_rmse": 13.649
+    },
+    {
+      "window_idx": 37,
+      "init_end_date": "2021-06-04",
+      "month": 6,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.0714,
+      "d4_tp_rmse": 6.762
+    },
+    {
+      "window_idx": 38,
+      "init_end_date": "2021-06-18",
+      "month": 6,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.0508,
+      "d4_tp_rmse": 5.035
+    },
+    {
+      "window_idx": 39,
+      "init_end_date": "2021-07-02",
+      "month": 7,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.1697,
+      "d4_tp_rmse": 4.585
+    },
+    {
+      "window_idx": 40,
+      "init_end_date": "2021-07-16",
+      "month": 7,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0216,
+      "d4_tp_rmse": 8.106
+    },
+    {
+      "window_idx": 41,
+      "init_end_date": "2021-07-30",
+      "month": 7,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.0924,
+      "d4_tp_rmse": 7.553
+    },
+    {
+      "window_idx": 42,
+      "init_end_date": "2021-08-13",
+      "month": 8,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0105,
+      "d4_tp_rmse": 7.212
+    },
+    {
+      "window_idx": 43,
+      "init_end_date": "2021-08-27",
+      "month": 8,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0206,
+      "d4_tp_rmse": 6.3
+    },
+    {
+      "window_idx": 44,
+      "init_end_date": "2021-09-10",
+      "month": 9,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": 0.0624,
+      "d4_tp_rmse": 8.09
+    },
+    {
+      "window_idx": 45,
+      "init_end_date": "2021-09-24",
+      "month": 9,
+      "season": "JJAS_Monsoon",
+      "mean_ss_best": -0.0066,
+      "d4_tp_rmse": 9.142
+    },
+    {
+      "window_idx": 46,
+      "init_end_date": "2021-10-08",
+      "month": 10,
+      "season": "OND_PostMonsoon",
+      "mean_ss_best": 0.0154,
+      "d4_tp_rmse": 8.497
+    },
+    {
+      "window_idx": 47,
+      "init_end_date": "2021-10-22",
+      "month": 10,
+      "season": "OND_PostMonsoon",
+      "mean_ss_best": 0.0907,
+      "d4_tp_rmse": 4.209
+    },
+    {
+      "window_idx": 48,
+      "init_end_date": "2021-11-05",
+      "month": 11,
+      "season": "OND_PostMonsoon",
+      "mean_ss_best": 0.1803,
+      "d4_tp_rmse": 5.386
+    },
+    {
+      "window_idx": 49,
+      "init_end_date": "2021-11-19",
+      "month": 11,
+      "season": "OND_PostMonsoon",
+      "mean_ss_best": 0.0465,
+      "d4_tp_rmse": 4.765
+    },
+    {
+      "window_idx": 50,
+      "init_end_date": "2021-12-03",
+      "month": 12,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.063,
+      "d4_tp_rmse": 2.269
+    },
+    {
+      "window_idx": 51,
+      "init_end_date": "2021-12-17",
+      "month": 12,
+      "season": "DJF_Winter",
+      "mean_ss_best": 0.0661,
+      "d4_tp_rmse": 2.867
+    }
+  ]
+}

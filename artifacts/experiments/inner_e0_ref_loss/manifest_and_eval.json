@@ -1,0 +1,110 @@
+{
+  "exp_id": "inner_e0_ref_loss",
+  "hypothesis": "Inner-split baseline reproducing LocalResNet-v3 loss (Huber, cw=[1,1.4,1,1,1,1], boost=2.2, grad=0.14, var=0.08)",
+  "seed": 42,
+  "model_cfg": {
+    "t_in": 3,
+    "n_dyn": 6,
+    "n_static": 2,
+    "n_time": 2,
+    "n_coord": 2,
+    "hidden_dim": 64,
+    "num_blocks": 4,
+    "dilations": [
+      1,
+      2,
+      2,
+      1
+    ],
+    "init_scale": 0.25
+  },
+  "loss_cfg": {
+    "channel_weights": [
+      1.0,
+      1.4,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "mse_mix": 0.0,
+    "grad_weight": 0.14,
+    "var_weight": 0.08,
+    "var_min_ratio": 0.65,
+    "heavy_rain_boost": 2.2,
+    "vort_div_weight": 0.0
+  },
+  "params": 313030,
+  "elapsed_s": 1366.9,
+  "ckpt_sha256": "70436f1d77db87020d954b13ff4fcd395f10ad9025ed2b124174449e1db75eea",
+  "s1_best_val": 0.083513,
+  "s2_best_val": 0.160183,
+  "eval": {
+    "split": "2018-01-01..2019-12-31 (52w, 13 shocks)",
+    "rmse_pts_30": 7.447,
+    "csi_pts_15": 7.1434,
+    "anti_blur_pts_10": 10.0,
+    "causality_pts_15": 11.25,
+    "total_pts_70": 35.8404,
+    "mean_ss": 0.02979,
+    "mean_csi_skill": 0.04762,
+    "warm_prop_count": 0,
+    "stall_prop_count": 0,
+    "warm_rate": 0.0,
+    "stall_rate": 0.0,
+    "null_rate": 1.0,
+    "all_no_teleport": true,
+    "all_stable": true,
+    "all_localized": true,
+    "validity_failures": 0,
+    "day4_beats_persist": true,
+    "latency_mean_ms": 52.22,
+    "latency_max_ms": 110.2,
+    "day8_var_ratios": [
+      0.9846,
+      0.7107,
+      0.8201,
+      0.7651,
+      0.9066,
+      0.867
+    ],
+    "leads": {
+      "day_1": {
+        "mean_ss_best": 0.16433,
+        "per_ch_ss_best": {
+          "t2m": 0.108,
+          "tp": 0.2176,
+          "u10": 0.1432,
+          "v10": 0.1781,
+          "msl": 0.2332,
+          "tcwv": 0.1058
+        },
+        "csi_10mm": 0.4917
+      },
+      "day_4": {
+        "mean_ss_best": 0.01073,
+        "per_ch_ss_best": {
+          "t2m": 0.003,
+          "tp": 0.0073,
+          "u10": 0.0417,
+          "v10": -0.0105,
+          "msl": 0.0009,
+          "tcwv": 0.022
+        },
+        "csi_10mm": 0.3339
+      },
+      "day_8": {
+        "mean_ss_best": -0.08569,
+        "per_ch_ss_best": {
+          "t2m": -0.1559,
+          "tp": -0.0384,
+          "u10": -0.0604,
+          "v10": -0.097,
+          "msl": -0.0761,
+          "tcwv": -0.0863
+        },
+        "csi_10mm": 0.3283
+      }
+    }
+  }
+}
